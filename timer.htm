@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>キッチンタイマー</title>
+<style>
+  #timer-display {
+    font-size: 48px;
+    text-align: center;
+    margin-top: 50px;
+  }
+</style>
+</head>
+<body>
+
+  <div id="timer-display">00:00</div>
+  <button onclick="startTimer()">スタート</button>
+  <button onclick="stopTimer()">ストップ</button>
+  <button onclick="resetTimer()">リセット</button>
+
+  <script>
+       
+let startTime;
+    let timerInterval;
+
+    function startTimer() {
+      startTime = Date.now() - (startTime ? Date.now() - startTime : 0);
+      timerInterval = setInterval(updateDisplay, 1000);
+    }
+
+    function stopTimer() {
+      clearInterval(timerInterval);
+    }
+
+    function resetTimer() {
+      clearInterval(timerInterval);
+      startTime = null;
+      updateDisplay();
+    }
+
+    function updateDisplay() {
+      const elapsedTime = startTime ? Date.now() - startTime : 0;
+      const minutes = Math.floor(elapsedTime / 60000);
+      const seconds = Math.floor((elapsedTime % 60000) / 1000);
+      document.getElementById("timer-display").textContent = `${pad(minutes)}:${pad(seconds)}`;
+    }
+
+    function pad(number) {
+      return (number < 10 ? '0' : '') + number;
+    }
+  </script>
+
+</body>
+</html>
