@@ -1,0 +1,70 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>姫語変換器</title>
+
+</head>
+
+<style>
+    #title {
+        font-size: xx-large
+    }
+
+    .form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+</style>
+
+<body>
+
+    <div id="title">表現の不自由展</div>
+
+    <div>
+        姫語変換器<br>
+        君のX社に凍結されるレベルに失礼なテキストをこの変換器にかけて<br>
+        君もプリンセスおひめさまのように上品なツイットを心がけよう！
+    </div>
+
+    <div id="form">
+
+        <div>
+            <div id="origin_text_count">
+                表現の自由　文字数:XXX
+            </div>
+            <div>
+                仮テキスト挿入
+                <button type="button" onclick="karitxt_otouto_killer()">弟殺し</button>
+                <button type="button" onclick="karitxt_korosu()">人道的文章❤</button>
+            </div>
+            <textarea id="origin_text_area" name="origin_text_area" rows="20" cols="120"></textarea>
+        </div>
+
+        <div>
+            <label for="frozen_word">凍結ワード変化</label>
+            <input type="checkbox" id="frozen_word" name="frozen_word" checked>
+        </div>
+        <div>
+            <button type="button" onclick="changeText()">表現規制開始</button>
+        </div>
+        <div>
+            <div id="change_text_count">表現の不自由　文字数:XXX</div>
+            <div>
+                <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button"
+                    data-show-count="false">Tweet</a>
+                <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+            </div>
+            <textarea id="change_text_area" name="change_text_area" rows="20" cols="120">
+            </textarea>
+        </div>
+
+
+    </div>
+</body>
+
+<script src="./js/changer.js"></script>
+
+</html>
