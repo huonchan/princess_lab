@@ -1,0 +1,23 @@
+body {
+    background-image: url("./back1.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+/* style.css */
+p, input[type="checkbox"] {
+    display: inline-block;
+}
+
+
+input[type="checkbox"] {
+    transform: scale(1.5); /* 1.5倍に拡大 */
+}
+
+
+.tracker
+{
+    margin:0px 0px 0px 22px ;
+    padding: 2px ;
+    /* background-color: gainsboro; */
+}
