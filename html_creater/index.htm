@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>htmlとか作る奴</title>
+    <script src="./templates.js"></script>
+
+    
+</head>
+
+<style>
+    .container {
+        display: flex;
+    }
+</style>
+
+<body>
+
+    <div class="container">
+
+
+        <div id="edit_area">
+            <div>
+                <textarea id="html_area" , rows="30" cols="80"></textarea>
+            </div>
+            <button onclick="insertTemplateHtml()">テンプレート</button>
+            <button onclick="insertDivHtml()">div</button>
+            <button onclick="insertTextAreaHtml()">textarea</button>
+            <button onclick="insertButtonHtml()">button</button>
+            <button onclick="insertCheckboxHtml()">checkbox</button>
+
+        </div>
+
+        <div id="preview_area">ここにプレビュー</div>
+
+    </div>
+
+    <script>
+        function insertText(textToInsert, cursor_sub) {
+            var textarea = document.getElementById("html_area");
+            // カーソル位置を取得
+            var cursorPosition = textarea.selectionStart;
+
+            // カーソル位置の前後の文字列を取得
+            var beforeText = textarea.value.substring(0, cursorPosition);
+            var afterText = textarea.value.substring(cursorPosition, textarea.value.length);
+
+            // 文字列を挿入
+            textarea.value = beforeText + textToInsert + afterText;
+
+            // カーソル位置を調整
+            textarea.selectionStart = cursorPosition + textToInsert.length + cursor_sub;
+            textarea.selectionEnd = cursorPosition + textToInsert.length + cursor_sub;
+            textarea.focus();
+        }
+
+        function updatePreview()
+        {
+            var textarea = document.getElementById("html_area");
+            var pre_area = document.getElementById("preview_area");
+
+            pre_area.innerHTML = textarea.value;
+
+        }
+
+        function insertTemplateHtml() {
+            insertText(HTML_TEMP, 0);
+        }
+
+        function insertDivHtml() {
+            insertText(HTML_DIV, -8);
+            updatePreview();
+        }
+
+        function insertTextAreaHtml() {
+            insertText(HTML_TEXTAREA, 0);
+            updatePreview();
+        }
+
+        function insertButtonHtml() {
+            insertText(HTML_BUTTON, 0);
+            updatePreview();
+        }
+
+        
+        function insertCheckboxHtml() {
+            insertText(HTML_CHECKBOX, 0);
+            updatePreview();
+        }
+
+    </script>
+
+</body>
+
+</html>
