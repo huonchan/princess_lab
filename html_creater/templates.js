@@ -35,6 +35,12 @@ const HTML_BUTTON =
 `;
 
 
+const HTML_LINK = 
+`
+<button onclick="dummy_function()">ボタン</button>
+`;
+
+
 const HTML_CHECKBOX = 
 `
 <input type="checkbox" id="checkbox" name="checkbox" value="send_param" , checked >

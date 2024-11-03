@@ -1,0 +1,94 @@
+
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>マルチリンクオープン</title>
+</head>
+
+<body>
+
+    
+
+    <div>
+        この処理はブラウザクラッシュ攻撃に応用できてしまうため、ブラウザのデフォルトの設定では起動できません<br>
+        ブラウザの設定（Braveだとこの処理実行時にURLバーに現れるブロック済アイコン）から<br>
+        ポップアップ処理を有効にしてください<br>
+        なお、設定はおそらくドメインごとに保存されるため、このサイトのソースを移植した後<br>
+        移植先のサイトも同じようにポップアップ処理を有効化する必要があります
+    </div>
+
+    <p id="rakuten_kuzi" style="color: #0000ee; text-decoration: underline;">
+        楽天くじ全部開く</p>
+
+
+    <div id="log"></div>
+
+</body>
+
+<script>
+
+    function sleep(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
+    
+    // 楽天くじ全部開く
+    document.getElementById('rakuten_kuzi').onclick = async function(){
+      const isConfirmed = confirm("先にログイン確認用リンクでログイン状態確認とログイン処理しろ\n楽天くじ１５タブぐらい、マジで開くぞ？ｗ\nほんまにええんか？ｗ\nめんどくせー事になってもワイは知らんぞ？ｗ");
+      if (isConfirmed) {
+        const urls = [
+                
+        "https://kuji.rakuten.co.jp/f3a3832d0c"//楽天ラッキーくじ 
+        ,"https://kuji.rakuten.co.jp/1243541a35"//楽天トラベル ラッキーくじ 
+        ,"https://kuji.rakuten.co.jp/6e7329f994"//楽天証券ラッキーかぶくじ 
+        /*
+        ,"https://kuji.rakuten.co.jp/14d330d3e0"//楽天保険 保険の比較 くじ 
+        ,"https://kuji.rakuten.co.jp/46211bf9dd"//楽天TV ラッキーくじ
+        ,"https://kuji.rakuten.co.jp/18584163d"//楽天不動産 ラッキーくじ 
+  
+        ,"https://kuji.rakuten.co.jp/7393386d27"//楽天PAY(オンライン決済）ラッキーくじ
+        ,"https://kuji.rakuten.co.jp/4351057845"//楽天Web検索 ラッキーくじ
+        ,"https://kuji.rakuten.co.jp/ef23be45f7"//楽天ブックス ラッキーくじ
+        
+        ,"https://kuji.rakuten.co.jp/42136c5d7d"//楽天ブックス(Faithbook)ラッキーくじ
+        ,"https://kuji.rakuten.co.jp/9ea32a8dfa"//楽天カレンダーラッキーくじ
+        ,"https://kuji.rakuten.co.jp/34e2cb79fa"//楽天カレンダーラッキーくじ2
+  
+        ,"https://kuji.rakuten.co.jp/c8437c01c5/"//楽天ブログ ラッキーくじ
+        ,"https://kuji.rakuten.co.jp/26d37b04b2"//楽天レシピ ラッキーくじ
+        ,"https://kuji.rakuten.co.jp/38c3861fdc"//楽天Edy ラッキーくじ
+  
+        ,"https://kuji.rakuten.co.jp/c5337832c5"//ニュース ラッキーくじ
+        ,"https://kuji.rakuten.co.jp/26e390eccf"//楽天ラクマのラッキーくじ
+        ,"https://kuji.rakuten.co.jp/5f93b1fd01"//楽天シニアのラッキーくじ
+  
+        ,"https://kuji.rakuten.co.jp/1993dd09b6"//楽天Play ラッキーくじ
+        ,"https://kuji.rakuten.co.jp/0293c43591"//楽天ぐるなびラッキーくじ
+        ,"https://kuji.rakuten.co.jp/889373540e"//infoseekくじ 
+        */
+        ];
+
+
+        const log = document.getElementById('log');
+        for (const url of urls) {
+          window.open(url, '_blank');
+
+          log.innerText += log.innerText + `${url}<br>`;
+          await sleep(500);
+        }
+
+        
+        //window.open(url[1], '_blank');
+  
+      } else {
+        // キャンセルされた場合の処理（必要であれば）
+        alert("キャンセルされました。"); 
+      }
+      return false;
+    }
+  
+    </script>
+
+</html>
