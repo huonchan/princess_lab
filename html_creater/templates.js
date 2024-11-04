@@ -42,7 +42,7 @@ const HTML_LINK =
 
 const HTML_IMAGE = 
 `
-<img src="画像のURL" alt="代替テキスト" title="on cursor テキスト"></img>
+<img src="./image_name.jpg" alt="代替テキスト" title="オンマウス表示文字"></img>
 `;
 
 
@@ -51,4 +51,20 @@ const HTML_CHECKBOX =
 `
 <input type="checkbox" id="checkbox" name="checkbox" value="send_param" , checked >
 <label for="checkbox">check</label>
+`;
+
+const HTML_YOUTUBE = 
+`
+<!-- 動画によっては埋め込みから再生できないものがあるらしい。条件不明 -->
+<iframe width="560" height="315" 
+  src="https://www.youtube.com/embed/nROvY9uiYYk?si=FH0SX104Bdt0i9G-"
+  title="YouTube video player" frameborder="0" allow="accelerometer; 
+  autoplay; 
+  clipboard-write;
+  encrypted-media; 
+  gyroscope;
+  picture-in-picture; 
+  web-share"
+  referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+</iframe>
 `;

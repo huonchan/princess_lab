@@ -30,6 +30,7 @@
             <button onclick="insertButtonHtml()">button</button>
             <button onclick="insertImageHtml()">image</button>
             <button onclick="insertCheckboxHtml()">checkbox</button>
+            <button onclick="insertYoutubeHtml()">youtube</button>
 
         </div>
 
@@ -87,6 +88,18 @@
         
         function insertCheckboxHtml() {
             insertText(HTML_CHECKBOX, 0);
+            updatePreview();
+        }
+
+        
+        function insertImageHtml() {
+            insertText(HTML_IMAGE, 0);
+            updatePreview();
+        }
+
+        
+        function insertYoutubeHtml() {
+            insertText(HTML_YOUTUBE, 0);
             updatePreview();
         }
 
