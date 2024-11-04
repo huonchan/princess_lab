@@ -40,6 +40,12 @@ const HTML_LINK =
 <button onclick="dummy_function()">ボタン</button>
 `;
 
+const HTML_IMAGE = 
+`
+<img src="画像のURL" alt="代替テキスト" title="on cursor テキスト"></img>
+`;
+
+
 
 const HTML_CHECKBOX = 
 `
