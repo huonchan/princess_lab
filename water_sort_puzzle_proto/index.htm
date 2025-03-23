@@ -4,11 +4,16 @@
 <head>
     <title>WaterSortPuzzle_Prot</title>
     <style>
-        .test_tube {
+        .unit {
             display: inline-block;
             border-right: 1px solid black;
             border-bottom: 1px solid black;
             border-left: 1px solid black;
+            
+        }
+
+        .test_tube
+        {
             padding: 1px;
             margin: 12px;
             /* width:16px;
@@ -48,13 +53,36 @@
         .purple {
             color: purple;
         }
-        
     </style>
 </head>
 
 <body>
     <h1>WaterSortPuzzle_Prot</h1>
     <div id="game_screen">
+
+
+        <!-- どうせここは上書きされる-->
+
+        <div class="test_tube 0">
+
+            <div class = "space">
+                <div class="blue">█<br></div>
+                <div class="blue">█<br></div>
+                <div class="hidden">█<br></div>
+                <div class="hidden">█<br></div>
+            </div>
+
+            <div class="unit">
+                <div class="hidden">█<br></div>
+                <div class="hidden">█<br></div>
+                <div class="red">█<br></div>
+                <div class="red">█<br></div>
+            </div>
+
+
+        </div>
+
+        <!-- -->
 
     </div>
 
@@ -69,10 +97,10 @@
     const HORIZONTAL_LINE = 4;//4
     const VERTICAL_LINE = 2;//2
     const BLOCK_MAX = 4;
-    const START_USE_TEST_TUBE = 7 ;
-    const START_FREE_TEST_TUBE = 2 ;
+    const START_USE_TEST_TUBE = 7;
+    const START_FREE_TEST_TUBE = 2;
 
-    const COLORS = ["none","blue", "red", "yellow", "green" , "yellow_green","palevioletred" , "purple" ];
+    const COLORS = ["none", "blue", "red", "yellow", "green", "yellow_green", "palevioletred", "purple"];
 
     function convertTo2DArrayFrom(array, length) {
         return Array.from({ length: Math.ceil(array.length / length) }, (_, i) =>
@@ -82,16 +110,15 @@
 
     function UpdateScreen() {
         //const arr = [1, 1, 1, 1, 2, 2, 2, 2];
-        var arr = []; 
+        var arr = [];
         // 内部生成
         {
             //let loop_num = HORIZONTAL_LINE * VERTICAL_LINE * BLOCK_MAX;
             for (let i = 0; i < START_USE_TEST_TUBE; i++) {
-                for( let j = 0 ; j <BLOCK_MAX ; j++)
-                {
-                    arr.push(i+1);
+                for (let j = 0; j < BLOCK_MAX; j++) {
+                    arr.push(i + 1);
                 }
-              }
+            }
         }
 
         // シャッフルアルゴリズム（Fisher-Yates shuffle）
@@ -102,12 +129,11 @@
 
         //空の試験管追加
         {
-            for( let i = 0 ; i <BLOCK_MAX * START_FREE_TEST_TUBE ; i++)
-            {
+            for (let i = 0; i < BLOCK_MAX * START_FREE_TEST_TUBE; i++) {
                 arr.push(0);
             }
         }
-        
+
 
         const arr_2d = convertTo2DArrayFrom(arr, BLOCK_MAX);
 
@@ -119,16 +145,14 @@
                 `;
             row.forEach(element => {
 
-                if( element === 0 )
-                {
+                if (element === 0) {
                     html += `<div class="hidden">█<br></div>
                     `;
-                }else
-                {
+                } else {
                     html += `<div class="${COLORS[element]}">█<br></div>
                     `;
                 }
-                
+
 
             });
 
@@ -141,14 +165,14 @@
 
 
         const game_screen = document.getElementById("game_screen");
-        game_screen.innerHTML =html;
+        game_screen.innerHTML = html;
 
         const debug_log = document.getElementById("debug_log");
         //debug_log.textContent = html;
     }
 
 
-    UpdateScreen();
+    //UpdateScreen();
 
 </script>
 
