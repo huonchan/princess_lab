@@ -6,9 +6,10 @@
     <style>
         .unit {
             display: inline-block;
-            border-right: 1px solid black;
-            border-bottom: 1px solid black;
-            border-left: 1px solid black;
+            border-right: 2px solid black;
+            border-bottom: 2px solid black;
+            border-left: 2px solid black;
+            z-index: 1; /* z-indexを設定 */
 
         }
 
@@ -17,6 +18,7 @@
             margin: 12px;
             /* width:16px;
             height:90px; */
+            color:black;
             font-size: xx-large;
             line-height: 1.05;
             display: inline-block
@@ -24,34 +26,42 @@
 
         .hidden {
             visibility: hidden;
+            pointer-events: none
         }
 
         .blue {
             color: blue;
+            pointer-events: none
         }
 
         .red {
             color: red;
+            pointer-events: none
         }
 
         .yellow {
             color: yellow;
+            pointer-events: none
         }
 
         .green {
             color: green;
+            pointer-events: none
         }
 
         .yellow_green {
             color: yellowgreen;
+            pointer-events: none
         }
 
         .palevioletred {
             color: palevioletred;
+            pointer-events: none
         }
 
         .purple {
             color: purple;
+            pointer-events: none
         }
     </style>
 </head>
@@ -91,7 +101,6 @@
     </div>
 
 </body>
-
 
 
 <script src="./script.js"></script>

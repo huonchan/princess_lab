@@ -57,8 +57,6 @@ class GameData {
 let game_data = new GameData();
 game_data.Initialized();
 
-//入力対応
-
 function UpdateScreen() {
 
 
@@ -66,7 +64,8 @@ function UpdateScreen() {
     var html = ``;
     game_data.block_datas.forEach(row => {
 
-        html += `<div class="test_tube ${test_tube_num}">
+        //html += `<div class="test_tube ${test_tube_num}">
+        html += `<div class="test_tube">
                 `;
 
         html += `<div class="space">
@@ -77,7 +76,7 @@ function UpdateScreen() {
                 </div>
                 `
 
-        html += `<div class="unit">
+        html += `<div class="unit unit${0}">
                 `
         row.forEach(element => {
 
@@ -106,7 +105,7 @@ function UpdateScreen() {
 
     const debug_log = document.getElementById("debug_log");
 
-    if (false) {
+    if (true) {
         debug_log.textContent = html;
     } else {
         var aa = "";
@@ -125,4 +124,18 @@ function UpdateScreen() {
 }
 
 
+
+
+//入力対応
 UpdateScreen();
+//
+
+
+const container = document.getElementById("game_screen");
+
+container.addEventListener("click", function(event) {
+    if (event.target.classList.contains("unit0")) {
+      alert(event.target + "がクリックされました！");
+      // ここにクリックされたときの処理を記述します
+    }
+  });
