@@ -20,6 +20,8 @@
             height:90px; */
             font-size: xx-large;
             line-height: 1.05;
+            display: inline-block
+            
         }
 
         .hidden {
@@ -97,8 +99,8 @@
     const HORIZONTAL_LINE = 4;//4
     const VERTICAL_LINE = 2;//2
     const BLOCK_MAX = 4;
-    const START_USE_TEST_TUBE = 7;
     const START_FREE_TEST_TUBE = 2;
+    const START_USE_TEST_TUBE = HORIZONTAL_LINE * VERTICAL_LINE - START_FREE_TEST_TUBE;
 
     const COLORS = ["none", "blue", "red", "yellow", "green", "yellow_green", "palevioletred", "purple"];
 
@@ -141,7 +143,8 @@
         var html = ``;
         arr_2d.forEach(row => {
 
-            html += `<div class="test_tube test_tube_${test_tube_num}">
+            html += `<div class="test_tube ${test_tube_num}">
+                <div class="unit">
                 `;
             row.forEach(element => {
 
@@ -158,6 +161,7 @@
 
 
             html += `</div>
+            </div>
             `;
 
             test_tube_num += 1;
@@ -168,12 +172,14 @@
         game_screen.innerHTML = html;
 
         const debug_log = document.getElementById("debug_log");
-        //debug_log.textContent = html;
+        debug_log.textContent = html;
     }
 
 
-    //UpdateScreen();
+    UpdateScreen();
 
 </script>
+
+
 
 </html>
