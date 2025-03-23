@@ -9,11 +9,10 @@
             border-right: 1px solid black;
             border-bottom: 1px solid black;
             border-left: 1px solid black;
-            
+
         }
 
-        .test_tube
-        {
+        .test_tube {
             padding: 1px;
             margin: 12px;
             /* width:16px;
@@ -21,7 +20,6 @@
             font-size: xx-large;
             line-height: 1.05;
             display: inline-block
-            
         }
 
         .hidden {
@@ -67,7 +65,7 @@
 
         <div class="test_tube 0">
 
-            <div class = "space">
+            <div class="space">
                 <div class="blue">█<br></div>
                 <div class="blue">█<br></div>
                 <div class="hidden">█<br></div>
@@ -144,8 +142,18 @@
         arr_2d.forEach(row => {
 
             html += `<div class="test_tube ${test_tube_num}">
-                <div class="unit">
                 `;
+
+            html += `<div class="space">
+<div class="hidden">█<br></div>
+<div class="hidden">█<br></div>
+<div class="hidden">█<br></div>
+<div class="hidden">█<br></div>
+                </div>
+                `
+
+            html += `<div class="unit">
+                `
             row.forEach(element => {
 
                 if (element === 0) {
@@ -172,7 +180,23 @@
         game_screen.innerHTML = html;
 
         const debug_log = document.getElementById("debug_log");
-        debug_log.textContent = html;
+
+        if (false) {
+            debug_log.textContent = html;
+        } else {
+            var aa = "";
+
+            aa += "OK、ブラクラゲット。<br>";
+            aa += "　　　　　　　　　　∧＿∧<br>";
+            aa += "　　　　 ∧＿∧ 　（´<_｀ ）　流石だよな俺ら。<br>";
+            aa += "　　　（　´_ゝ`）/　　 ⌒i<br>";
+            aa += "　　 ／　　　＼./ 　　|　|<br>";
+            aa += "　　/　　 　/￣￣￣￣/　|<br>";
+            aa += "＿_(__ﾆつ/　 FMV　 / .| .|＿＿＿＿<br>";
+            aa += "　　　 ＼/＿＿＿＿/　（u　⊃<br>";
+            debug_log.innerHTML = aa;
+        }
+
     }
 
 
