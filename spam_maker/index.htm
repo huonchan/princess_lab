@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>テキストフォームに文字列を挿入する</title>
+    <style>
+        .container {
+            display: flex;
+        }
+
+        .container div {
+            background-color: lightpink;
+            padding: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="title_area">
+        <h1>当たり屋</h1>
+    </div>
+
+
+    <div id="content_area" class="container">
+
+        <div id="content_left">
+            <textarea type="text" id="myText" cols="40" rows="5"></textarea><br>
+            <label for="add_pr">PR追加</label>
+            <input type="checkbox" id="add_pr" value="true">
+
+            <br>
+
+            <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button"
+                data-show-count="false">Tweet</a>
+            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+        </div>
+
+        <div id="content_controls">
+
+
+            <div>
+                巻き込みリプTarget<br>
+                <label for="hide_timeline">HideTimeline</label>
+                <input type="checkbox" id="hide_timeline" value="false">
+                <br>
+
+                <label for="frozen_anonymass">凍結済みの誰か</label>
+                <input type="checkbox" id="frozen_anonymass" value="false">
+
+                <label for="koukasu">公カス</label>
+                <input type="checkbox" id="koukasu" value="false">
+
+                <label for="hoock">ホック</label>
+                <input type="checkbox" id="hoock" value="false">
+
+                <label for="little_witch">超絶劣化SCP魔女</label>
+                <input type="checkbox" id="little_witch" value="false">
+            </div>
+
+            <div>
+                <input type="checkbox" id="purary" value="false">
+                <label for="purary">プラリー</label>
+                <textarea type="text" id="purary_text" cols="50" rows="3"></textarea>
+            </div>
+            <div>
+                <input type="checkbox" name="kurashiru_reward" value="false">
+                <label for="kurashiru_reward">クラシルリワード</label>
+                <textarea type="text" cols="50" rows="3"></textarea>
+            </div>
+
+            <div>
+                <label for="attack_rp">攻撃対象ポストURL</label>
+                <input type="input" id="attack_rp">
+            </div>
+        </div>
+
+    </div>
+
+
+    <script src="./js/script.js"></script>
+
+</body>
+
+</html>
