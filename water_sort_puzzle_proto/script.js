@@ -1,4 +1,6 @@
+//定数
 
+//描画処理
 
 const HORIZONTAL_LINE = 4;//4
 const VERTICAL_LINE = 2;//2
@@ -8,44 +10,61 @@ const START_USE_TEST_TUBE = HORIZONTAL_LINE * VERTICAL_LINE - START_FREE_TEST_TU
 
 const COLORS = ["none", "blue", "red", "yellow", "green", "yellow_green", "palevioletred", "purple"];
 
+
 function convertTo2DArrayFrom(array, length) {
     return Array.from({ length: Math.ceil(array.length / length) }, (_, i) =>
         array.slice(i * length, (i + 1) * length)
     );
 }
 
-function UpdateScreen() {
-    //const arr = [1, 1, 1, 1, 2, 2, 2, 2];
-    var arr = [];
-    // 内部生成
-    {
-        //let loop_num = HORIZONTAL_LINE * VERTICAL_LINE * BLOCK_MAX;
-        for (let i = 0; i < START_USE_TEST_TUBE; i++) {
-            for (let j = 0; j < BLOCK_MAX; j++) {
-                arr.push(i + 1);
+//実データ
+
+class GameData {
+    static pick_index = 0;
+    static pick_array = [];
+    static block_datas = [[]];
+
+    Initialized() {
+        var arr = [];
+        // 内部生成
+        {
+            for (let i = 0; i < START_USE_TEST_TUBE; i++) {
+                for (let j = 0; j < BLOCK_MAX; j++) {
+                    arr.push(i + 1);
+                }
             }
         }
-    }
-
-    // シャッフルアルゴリズム（Fisher-Yates shuffle）
-    for (let i = arr.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [arr[i], arr[j]] = [arr[j], arr[i]]; // 要素の入れ替え
-    }
-
-    //空の試験管追加
-    {
-        for (let i = 0; i < BLOCK_MAX * START_FREE_TEST_TUBE; i++) {
-            arr.push(0);
+        // シャッフルアルゴリズム（Fisher-Yates shuffle）
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]]; // 要素の入れ替え
         }
+
+        //空の試験管追加
+        {
+            for (let i = 0; i < BLOCK_MAX * START_FREE_TEST_TUBE; i++) {
+                arr.push(0);
+            }
+        }
+
+        //２次元配列加工
+        this.block_datas = convertTo2DArrayFrom(arr, BLOCK_MAX);
+
     }
 
+};
 
-    const arr_2d = convertTo2DArrayFrom(arr, BLOCK_MAX);
+let game_data = new GameData();
+game_data.Initialized();
+
+//入力対応
+
+function UpdateScreen() {
+
 
     var test_tube_num = 0;
     var html = ``;
-    arr_2d.forEach(row => {
+    game_data.block_datas.forEach(row => {
 
         html += `<div class="test_tube ${test_tube_num}">
                 `;
