@@ -105,7 +105,7 @@ function UpdateScreen() {
 
     const debug_log = document.getElementById("debug_log");
 
-    if (true) {
+    if (false) {
         debug_log.textContent = html;
     } else {
         var aa = "";
