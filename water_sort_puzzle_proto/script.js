@@ -95,9 +95,9 @@ class GameData {
     pushCheck(index, block_id) {
         //this.getBlockCount() == 0 || 
         console.log(`fetch() index ${index} , getBlockCount ${this.getBlockCount(index)}`);
-        if( this.getBlockCount(index) == 0 ) return true;
-        console.log(`index ${index }, try in block id ${block_id} , target block id ${this.fetch(index)}`);
-        if( block_id == this.fetch(index) ) return true ;
+        if (this.getBlockCount(index) == 0) return true;
+        console.log(`index ${index}, try in block id ${block_id} , target block id ${this.fetch(index)}`);
+        if (block_id == this.fetch(index)) return true;
         return false;
     }
 
@@ -111,10 +111,9 @@ class GameData {
         return false;
     }
 
-    fetch(target_idx)
-    {
+    fetch(target_idx) {
         //console.log(`fetch() getblockblank ${this.getBlockBlank(target_idx)}`);
-        return this.block_datas[target_idx][this.getBlockBlank(target_idx)-1];
+        return this.block_datas[target_idx][this.getBlockBlank(target_idx) ];
     }
 
     push(target_idx, block_arr) {
@@ -129,20 +128,23 @@ class GameData {
     }
 
     onTap(select_idx) {
-        
+
         //let IS_TAP_SELECT_INDEX = this.select_index == select_idx;
         let IS_PICKMODE = this.pick_array.length > 0;
         if (IS_PICKMODE) {
             let IS_DIFF_INDEX = this.select_index != select_idx;
             console.log(`is diff index ${IS_DIFF_INDEX}`);
             if (IS_DIFF_INDEX) {
-                if (this.pushCheck(select_idx,this.pick_array[this.pick_array.length-1])) {
+                if (this.pushCheck(select_idx, this.pick_array[this.pick_array.length - 1])) {
                     this.pick_array = this.push(select_idx, this.pick_array);
+
+                    this.select_index = select_idx;
                 } else {
                     //できるならいれれない旨の処理
                 }
             } else {
                 this.pick_array = this.push(select_idx, this.pick_array);
+                this.select_index = select_idx;
             }
 
         } else {
@@ -163,13 +165,14 @@ class GameData {
                 this.block_datas[select_idx][i] = 0;
 
             }
+
+            this.select_index = select_idx;
         }
-        this.select_index = select_idx;
     }
 
     getBlockCount(idx) {
         var cnt = 0;
-        for (let i = 0 ; i < this.block_datas[idx].length; i++) {
+        for (let i = 0; i < this.block_datas[idx].length; i++) {
             if (this.block_datas[idx][i] != 0) { cnt++; }
         }
         return cnt;
