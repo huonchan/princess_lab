@@ -25,6 +25,15 @@ class GameData {
     #pick_array = [];
     #block_datas = [[]];
 
+
+    paramStrings()
+    {
+        return `
+            select index = ${this.select_index}<br>
+            pick_array length = ${this.pick_array.length}<br>
+        `
+    }
+
     InitializedTestTube()
     {
         //this.pick_array = [];
@@ -93,6 +102,7 @@ class GameData {
 
     onTap( select_idx )
     {
+        console.log('select_idx '+select_idx);
         //let IS_TAP_SELECT_INDEX = this.select_index == select_idx;
         let IS_PICKMODE = this.pick_array.length > 0 ;
         if( IS_PICKMODE )
@@ -101,11 +111,11 @@ class GameData {
             this.pick_array = this.push(select_idx,this.pick_array);
         }else
         {
-            
-            for(let i = 0 ; i < this.block_datas[select_idx].length ; i++ )
+            for(let i = this.getBlockBlank(select_idx) ; i < this.block_datas[select_idx].length ; i++ )
                 {
         
-                    if( i > 0 &&
+                    if( this.pick_array.length > 0 &&
+                         i > 0 &&
                         this.pick_array[0] != this.block_datas[select_idx][i]
                     )
                     {
@@ -123,9 +133,9 @@ class GameData {
     getBlockBlank(idx)
     {
         var cnt = 0;
-        for(let i = 0 ; i < this.block_datas[select_idx].length ; i++ )
+        for(let i = 0 ; i < this.block_datas[idx].length ; i++ )
         {
-            if(this.block_datas[select_idx] != 0) {break;}
+            if(this.block_datas[idx] != 0) {break;}
             cnt ++ ;
         }
 
@@ -218,8 +228,8 @@ function UpdateScreen() {
 
     const debug_log = document.getElementById("debug_log");
 
-    if (false) {
-        debug_log.textContent = html;
+    if (true) {
+        debug_log.innerHTML = game_data.paramStrings();
     } else {
         var aa = "";
 
