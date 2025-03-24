@@ -20,11 +20,18 @@ function convertTo2DArrayFrom(array, length) {
 //実データ
 
 class GameData {
-    static pick_index = 0;
-    static pick_array = [];
+    static pick_index ;
+    static pick_array ;
     static block_datas = [[]];
 
-    Initialized() {
+    constructor() {
+        this.pick_index = -1;
+        this.pick_array = [];
+    }
+
+    Initialized() 
+    {
+
         var arr = [];
         // 内部生成
         {
@@ -52,13 +59,23 @@ class GameData {
 
     }
 
+    onTap( select_idx )
+    {
+        this.pick_index = select_idx ;
+        for(let i = 0 ; i < this.block_datas[select_idx].length ; i++ )
+        {
+            this.pick_array.push(this.block_datas[select_idx][i]);
+            //this.pick_array.push(1);
+            this.block_datas[select_idx][i]= 0;
+        }
+    }
+
 };
 
 let game_data = new GameData();
 game_data.Initialized();
 
 function UpdateScreen() {
-
 
     var test_tube_num = 0;
     var html = ``;
@@ -68,15 +85,34 @@ function UpdateScreen() {
         html += `<div class="test_tube">
                 `;
 
-        html += `<div class="space">
-<div class="hidden">█<br></div>
-<div class="hidden">█<br></div>
-<div class="hidden">█<br></div>
-<div class="hidden">█<br></div>
-                </div>
-                `
-
-        html += `<div class="unit unit${0}">
+        //試験管上部描画
+        if( game_data.pick_index == test_tube_num )//ピックアップ中
+        {
+            html += `<div class="space">`;
+            for (let i = 0; i < BLOCK_MAX; i++) {
+                if( i < game_data.pick_array.length )
+                {
+                    html += `<div class="${COLORS[game_data.pick_array[i]]}">█<br></div>`;
+                    //html += `<div class="blue">█<br></div>`;
+                }else
+                {
+                    html += `<div class="hidden">█<br></div>`;
+                }
+            }
+            html += `</div>`;
+        }else
+        {
+            html += `<div class="space">
+            <div class="hidden">█<br></div>
+            <div class="hidden">█<br></div>
+            <div class="hidden">█<br></div>
+            <div class="hidden">█<br></div>
+            </div>
+            `
+        }
+        
+        //試験管内部描画
+        html += `<div class="unit unit${test_tube_num}">
                 `
         row.forEach(element => {
 
@@ -124,18 +160,23 @@ function UpdateScreen() {
 }
 
 
-
+UpdateScreen();
 
 //入力対応
-UpdateScreen();
-//
-
-
 const container = document.getElementById("game_screen");
 
-container.addEventListener("click", function(event) {
-    if (event.target.classList.contains("unit0")) {
-      alert(event.target + "がクリックされました！");
-      // ここにクリックされたときの処理を記述します
-    }
-  });
+let MAX_INDEX = game_data.block_datas.length;
+for (let i = 0; i < MAX_INDEX; i++) {
+    container.addEventListener("click", function (event) {
+        if (event.target.classList.contains(`unit${i}`)) {
+            //alert(`${i}がクリックされました`);
+            let SELECT_IDX = i;
+
+            game_data.onTap(SELECT_IDX);
+
+            UpdateScreen();
+
+        }
+    });
+}
+
