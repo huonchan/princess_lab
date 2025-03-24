@@ -1,3 +1,17 @@
+/*function linkify(text) {
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
+    return text.replace(urlRegex, function(url) {
+      return '<a href="' + url + '">' + url + '</a>';
+    });
+  }*/
+
+function linkify(text) {
+    const urlRegex = /(https?:\/\/[^\s<]+[^\s<.,:;"')\]>])/g;
+    return text.replace(urlRegex, function (url) {
+        return '<a href="' + url + '" target="_blank">' + url + '</a>';
+    });
+}
+
 class SpamShotgunData {
 
     #result_text = "";//the resulting string
@@ -16,7 +30,7 @@ class SpamShotgunData {
 
     updateText() {
         this.#result_text =
-`${this.front_rep}
+            `${this.front_rep}
 
 ${this.inner_text}
 ${this.after_rep}
@@ -52,7 +66,10 @@ function messageUpdate() {
     //ツイートリンクにも反映
 
     const tweet = document.getElementById("tweet");
-    tweet.innerHTML = `<a href="https://twitter.com/intent/tweet?text=${encodeURI(data.getText())}" target="_blank">攻撃開始</a>`;
+    //let url = encodeURI(`https://twitter.com/intent/tweet?text=${data.getText()})`);
+    //tweet.innerHTML = `<a href="https://twitter.com/intent/tweet?text=${encodeURI(data.getText())}" target="_blank">攻撃開始</a>`;
+    tweet.innerHTML = `<a href="https://twitter.com/intent/tweet?text=${encodeURIComponent(data.getText())}" target="_blank">攻撃開始</a>`;
+    //tweet.innerHTML = `<a href="https://twitter.com/intent/tweet?text=${data.getText()}" target="_blank">攻撃開始</a>`;
 }
 
 
@@ -76,7 +93,7 @@ class TargetSelector {
         `;
 
         this.#targetMap.forEach((item, key) => {
-            let checked = item['flag'] == true ? 'checked' : '' ;
+            let checked = item['flag'] == true ? 'checked' : '';
             html +=
                 `
                 <label for="${item['id']}">${key}</label>
@@ -145,17 +162,67 @@ class SpamMessage {
 
     #result_html = "";//the resulting string
 
-    #selectKey ="";
+    #selectKey = "";
 
     Initialized() {
         this.messageMap = new Map();
 
         this.messageMap.set("初期", {
-            id: "Init", checked : 'checked'　, message: "人の嫌がる事を進んでやります🤓" });
+            id: "Init", checked: 'checked', 
+            message: "人の嫌がる事を進んでやります🤓 あひゃひゃひゃテスト#$8!"
+        });
         this.messageMap.set("TikTokLite",
-             { id: "TikTokLite", checked:'', message: "TikTok Liteにログインをして、お友達と一緒に報酬をGETしよう！https://t.co/olwycUERyS" });
+            { id: "TikTokLite", checked: '', 
+            message: "TikTok Liteにログインをして、お友達と一緒に報酬をGETしよう！https://t.co/olwycUERyS" 
+        });
+
         this.messageMap.set("プラリー", {
-             id: "Plary", checked:'', message: "移動するだけのかんたんポイ活 #プラリー やってみない？5,000スコアもらえる招待コード【 BBSIXJ 】でお得に始めよう🎁アプリをインストールして受け取ってね！https://t.co/B6bMUAa8NU" });
+            id: "Plary", checked: '',
+            //message: "移動するだけのかんたんポイ活 #プラリー やってみない？5,000スコアもらえる招待コード【 BBSIXJ 】でお得に始めよう🎁アプリをインストールして受け取ってね！https://t.co/B6bMUAa8NU"
+            message: "移動するだけのかんたんポイ活 #プラリー やってみない？5,000スコアもらえる招待コード【 BBSIXJ 】でお得に始めよう🎁アプリをインストールして受け取ってね！https://t.co/B6bMUAa8NU"
+        });
+        this.messageMap.set("マクロミル", {
+            id: "Macromill", checked: '',
+            message: "https://monitor.macromill.com/campaign/newcomer.html?entry_kbn=1862&int_id=Z44176446A スキマ時間でアンケートに答えてお小遣い稼ぎしませんか？コチラのURLから登録してアンケートに答えればボーナスポイントがもらえちゃう。マクロミルならアンケートの数が多くてポイントが貯まりやすい！"
+        });
+        
+        this.messageMap.set("タウンWifi", {
+            id: "TownWifi", checked: '',
+            message: "ポイントが貯まるフリーWiFi自動接続アプリ #タウンWiFi で通信をお得に！貯めたポイントはギガや各種ポイントに交換できる！さっそく招待コード【3xPzw9AD】を使って5,000ptもらおう！https://townwifi.go.link/?adj_t=16d4kvc8"
+        });
+        
+        this.messageMap.set("キューモニター", {
+            id: "QueMonitor", checked: '',
+            message: "簡単アンケート回答でポイントもGET！キューモニターになって、社会や企業に声を届けよう！コチラのURLから登録していただくと、ボーナスポイントプレゼント★ https://www.cue-monitor.jp/entry/pre_agree.html?mc=4136a014dabfb0ab22affc81545abd8e04435bed&sc=170848&kr=27"
+        });
+
+        this.messageMap.set("トリマ", {
+            id: "TripMail", checked: '',
+            //message: "移動するだけでマイルが貯まる　#トリマ　ってもう始めてる？まだ始めてないなら、招待コード【wtpsyRKxP】登録で5,000マイルもらえるよ！　https://mapfan.to/trip-mile"
+            message: "移動するだけでマイルが貯まる　#トリマ　ってもう始めてる？招待コード【wtpsyRKxP】登録で5,000マイルもらえるよ！https://mapfan.to/trip-mile"
+        });
+
+        this.messageMap.set("サイバーパネル", {
+            id: "CyberPanel", checked: '',
+            message: "サイバーパネルでポイントをためて、あなたの声で社会を変えよう！ https://www.cyberpanel.jp/regist/index/c667cd87c520f70/03"
+        });
+
+        
+        this.messageMap.set("Powl", {
+            id: "Powl", checked: '',
+            message: "ポイ活アプリなら【Powl】会員数600万人突破！貯まったポイントを好きなギフトに交換して日々の暮らしをもっとおトクに♪URLから「かんたん無料登録」でポイントをゲットしよう★招待コード：T86CSQ5XO33 https://app.adjust.com/1b25yopr_1b66s546"
+        });
+
+        
+        this.messageMap.set("MoneyWalk", {
+            id: "MonelWalk", checked: '',
+            message: "[MoneyWalk]一日200ポイント、最も稼げるポイ活アプリ　貯まったポイントはAmazon、Rakutenなど様々な商品券に交換できます。友達から受け取ったリンクで始めると、2週間ポイントが2倍になります！https://gravitylabs.onelink.me/czwV/huy5pwcn?deep_link_sub1=65b5d2d4c43c0ef8b78e7993&deep_link_sub4=テコンダｰ朴&deep_link_value=step-booster-invitation-new"
+        });
+
+        this.messageMap.set("dummy", {
+            id: "dmt", checked: '',
+            message: ""
+        });
 
     }
 
@@ -166,16 +233,15 @@ class SpamMessage {
 
         this.messageMap.forEach((item, key) => {
 
-            if( item['checked'] !== '' )
-            {
-                this.selectKey = key ;
+            if (item['checked'] !== '') {
+                this.selectKey = key;
             }
 
             html += `
             <div>
                 <input type="radio" class = "spam_message_radio_button" , id="${item['id']}" name="options" value="${key}" ${item['checked']}>
                 <label for="${item['id']}">${key}</label>
-                <div>${item['message']}</div>
+                <div>${linkify(item['message'])}</div>
             </div>
             `;
         });
@@ -193,19 +259,16 @@ class SpamMessage {
         return this.result_html;
     }
 
-    getMessage()
-    {
-        if ( this.messageMap.has(this.selectKey) )
-        {
+    getMessage() {
+        if (this.messageMap.has(this.selectKey)) {
             return this.messageMap.get(this.selectKey)['message'];
         }
 
         return 'none';
-        
+
     }
 
-    setSelectKey( s)
-    {
+    setSelectKey(s) {
         this.selectKey = s;
     }
 
@@ -220,7 +283,7 @@ class SpamMessage {
                 if (event.target.checked) {
                     //console.log(event.target.value + "が選択されました");
 
-                    spamMessage.setSelectKey(event.target.value );
+                    spamMessage.setSelectKey(event.target.value);
 
                     data.updateText();
                     messageUpdate();
