@@ -65,24 +65,51 @@ class GameData {
         this.InitializedParams()
     }
 
+    pushSingle( target_idx , block_id )
+    {
+        for(let i = BLOCK_MAX -1 ; i >= 0 ; i-- )
+        {
+            if( this.block_datas[target_idx][i] == 0 )
+            {
+                this.block_datas[target_idx][i] = block_id;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    push(target_idx , block_arr)
+    {
+        for(let i = block_arr.length -1 ; i >= 0 ; i-- )
+        {
+            if( this.pushSingle(target_idx,block_arr[i]) )
+            {
+                 block_arr.pop();
+            }
+        }
+
+        return block_arr;
+    }
+
     onTap( select_idx )
     {
-        let IS_TAP_SELECT_INDEX = this.select_index == select_idx;
-
-        if( IS_TAP_SELECT_INDEX)
+        //let IS_TAP_SELECT_INDEX = this.select_index == select_idx;
+        let IS_PICKMODE = this.pick_array.length > 0 ;
+        if( IS_PICKMODE )
         {
-
+            //ターゲットの試験管に、今pickしてるものをいれてみる
+            this.pick_array = this.push(select_idx,this.pick_array);
         }else
         {
+            
             for(let i = 0 ; i < this.block_datas[select_idx].length ; i++ )
                 {
         
-                    if( i > 0 )
+                    if( i > 0 &&
+                        this.pick_array[0] != this.block_datas[select_idx][i]
+                    )
                     {
-                        if( this.pick_array[0] != this.block_datas[select_idx][i] )
-                        {
-                            break;
-                        }
+                        break;
                     }
         
                     this.pick_array.push(this.block_datas[select_idx][i]);
@@ -93,6 +120,17 @@ class GameData {
         this.select_index = select_idx ;
     }
 
+    getBlockBlank(idx)
+    {
+        var cnt = 0;
+        for(let i = 0 ; i < this.block_datas[select_idx].length ; i++ )
+        {
+            if(this.block_datas[select_idx] != 0) {break;}
+            cnt ++ ;
+        }
+
+        return cnt;
+    }
 
     pick(idx)
     {
