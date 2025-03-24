@@ -22,9 +22,11 @@ ${this.inner_text}
 ${this.after_rep}
 
 ${this.pr}
-${this.imageUrl}
 
-${this.target_post}`;
+${this.target_post}
+
+${this.imageUrl}
+`;
     }
 
     getText() {
