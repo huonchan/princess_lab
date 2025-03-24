@@ -113,7 +113,7 @@ class GameData {
 
     fetch(target_idx) {
         //console.log(`fetch() getblockblank ${this.getBlockBlank(target_idx)}`);
-        return this.block_datas[target_idx][this.getBlockBlank(target_idx) ];
+        return this.block_datas[target_idx][this.getBlockBlank(target_idx)];
     }
 
     push(target_idx, block_arr) {
@@ -268,21 +268,22 @@ function UpdateScreen() {
 
     const debug_log = document.getElementById("debug_log");
 
-    if (true) {
-        debug_log.innerHTML = game_data.paramStrings();
-    } else {
-        var aa = "";
+    debug_log.innerHTML = game_data.paramStrings();
 
-        aa += "OK、ブラクラゲット。<br>";
-        aa += "　　　　　　　　　　∧＿∧<br>";
-        aa += "　　　　 ∧＿∧ 　（´<_｀ ）　流石だよな俺ら。<br>";
-        aa += "　　　（　´_ゝ`）/　　 ⌒i<br>";
-        aa += "　　 ／　　　＼./ 　　|　|<br>";
-        aa += "　　/　　 　/￣￣￣￣/　|<br>";
-        aa += "＿_(__ﾆつ/　 FMV　 / .| .|＿＿＿＿<br>";
-        aa += "　　　 ＼/＿＿＿＿/　（u　⊃<br>";
-        debug_log.innerHTML = aa;
-    }
+    const ascii_art = document.getElementById("ascii_art");
+
+    var aa = "";
+
+    aa += "OK、ブラクラゲット。<br>";
+    aa += "　　　　　　　　　　∧＿∧<br>";
+    aa += "　　　　 ∧＿∧ 　（´<_｀ ）　流石だよな俺ら。<br>";
+    aa += "　　　（　´_ゝ`）/　　 ⌒i<br>";
+    aa += "　　 ／　　　＼./ 　　|　|<br>";
+    aa += "　　/　　 　/￣￣￣￣/　|<br>";
+    aa += "＿_(__ﾆつ/　 FMV　 / .| .|＿＿＿＿<br>";
+    aa += "　　　 ＼/＿＿＿＿/　（u　⊃<br>";
+    ascii_art.innerHTML = aa;
+
 
 }
 
