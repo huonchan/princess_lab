@@ -31,7 +31,7 @@
             /* width:16px;
             height:90px; */
             color: black;
-            font-size: 50px;
+            font-size: xx-large;/**50px*/
             line-height: 1.05;
             display: inline-block
         }
@@ -73,6 +73,16 @@
 
         .purple {
             color: purple;
+            pointer-events: none
+        }
+
+        .skyblue {
+            color: skyblue;
+            pointer-events: none
+        }
+
+        .gray {
+            color: gray;
             pointer-events: none
         }
     </style>
@@ -142,7 +152,7 @@
 
     //描画処理
 
-    const HORIZONTAL_LINE = 4;//4
+    const HORIZONTAL_LINE = 5;//5
     const VERTICAL_LINE = 2;//2
     const BLOCK_MAX = 4;
     const START_FREE_TEST_TUBE = 2;
@@ -151,7 +161,7 @@
     //const BLOCK_CHAR ="♥";
     //const BLOCK_CHAR ="🤓";
     //const BLOCK_CHAR ="牛角の男性差別商法。私の導火線に火がついた。絶対ゆるさねぇぞ。今まで個人店のレディースデーは数え切れないほど潰してきたけど、今度は名の通った企業相手だから、全身全霊で戦いを挑んでやる。久々に闘志が沸いてきたよ。合法の範囲で使える手はどんな手を使ってでも戦ってやる";
-    const COLORS = ["none", "blue", "red", "yellow", "green", "yellow_green", "palevioletred", "purple"];
+    const COLORS = ["none", "blue", "red", "yellow", "green", "yellow_green", "palevioletred", "purple","skyblue","gray"];
 
 
     //一次元配列を２次元配列に変換する
@@ -197,7 +207,7 @@
 
             //空の試験管追加
             {
-                for (let i = 0; i < BLOCK_MAX * (START_FREE_TEST_TUBE + 6); i++) {
+                for (let i = 0; i < BLOCK_MAX * (START_FREE_TEST_TUBE + 8); i++) {
                     arr.push(0);
                 }
             }
