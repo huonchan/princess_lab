@@ -31,7 +31,6 @@ class GameData {
 
     paramStrings() {
 
-
         var test_tubes_param = ``;
 
         for (let i = 0; i < this.block_datas.length; i++) {
@@ -41,9 +40,6 @@ class GameData {
             }
             test_tubes_param += `<br>`;
         }
-
-
-
 
         return `
             select index = ${this.select_index}<br>
@@ -99,28 +95,23 @@ class GameData {
     }
 
     pushSingle(target_idx, block_id) {
-        for (let i = BLOCK_MAX - 1; i >= 0; i--) {
-            if (this.block_datas[target_idx][i] == 0) {
-                this.block_datas[target_idx][i] = block_id;
-                return true;
-            }
-        }
-        return false;
+        let idx = this.block_datas[target_idx].lastIndexOf(0);
+        if( idx === -1 ){ return false ;}
+        this.block_datas[target_idx][idx] = block_id;
+        return true;
     }
 
     fetch(target_idx) {
-        //console.log(`fetch() getblockblank ${this.getBlockBlank(target_idx)}`);
         return this.block_datas[target_idx][this.getBlockBlank(target_idx)];
     }
 
     push(target_idx, block_arr) {
-
-        for (let i = block_arr.length - 1; i >= 0; i--) {
-            if (this.pushSingle(target_idx, block_arr[i])) {
-                block_arr.pop();
+        //世界が逆に回転する日常を飛び越え～♪己の体とその全ての存在否定はさせない♪
+        [...block_arr].reverse().forEach(pick_id => {
+            if (this.pushSingle(target_idx, pick_id )) {
+                block_arr.pop();//XXX:たぶん消してるブロック同じだから動作はするが、消してるやつは本当に正しいか？
             }
-        }
-
+          });
         return block_arr;
     }
 
