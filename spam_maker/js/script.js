@@ -12,6 +12,31 @@ function linkify(text) {
     });
 }
 
+function countCharacters(text) {
+    let count = 0;
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
+    const urls = text.match(urlRegex);
+  
+    if (urls) {
+      count += urls.length * 12;
+      text = text.replace(urlRegex, ""); // URLを除外
+    }
+  
+    for (let i = 0; i < text.length; i++) {
+      const charCode = text.charCodeAt(i);
+      if ((charCode >= 0x00 && charCode < 0x81) ||
+          (charCode === 0xf0) ||
+          (charCode >= 0xff61 && charCode <= 0xffdc) ||
+          (charCode >= 0xffe8 && charCode <= 0xffee)) {
+        count += 1; // 半角文字
+      } else {
+        count += 1; // 全角文字
+      }
+    }
+    return count;
+  }
+
+
 class SpamShotgunData {
 
     #result_text = "";//the resulting string
@@ -62,14 +87,17 @@ function messageUpdate() {
     const spam_text = document.getElementById("spam_text");
     spam_text.innerHTML = data.getText();
 
+    //文字数も更新
+    const char_count = document.getElementById("char_count");
+    char_count.textContent = `文字数:${countCharacters(data.getText())}`;
+
     //console.log("UpdateMessage :" + data.getText());
     //ツイートリンクにも反映
 
     const tweet = document.getElementById("tweet");
-    //let url = encodeURI(`https://twitter.com/intent/tweet?text=${data.getText()})`);
-    //tweet.innerHTML = `<a href="https://twitter.com/intent/tweet?text=${encodeURI(data.getText())}" target="_blank">攻撃開始</a>`;
     tweet.innerHTML = `<a href="https://twitter.com/intent/tweet?text=${encodeURIComponent(data.getText())}" target="_blank">攻撃開始</a>`;
-    //tweet.innerHTML = `<a href="https://twitter.com/intent/tweet?text=${data.getText()}" target="_blank">攻撃開始</a>`;
+    
+
 }
 
 
