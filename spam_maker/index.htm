@@ -18,9 +18,13 @@
             background-color: red;
         }
 
-        #insert_text_list {
+        #spam_message_list {
             background-color: aquamarine;
         }
+
+        input.url {
+            width: 500px; /* 横幅を300ピクセルに設定 */
+          }
     </style>
 </head>
 
@@ -34,15 +38,17 @@
     <div id="content_area" class="container">
 
         <div id="content_left">
-            <textarea type="text" id="myText" cols="40" rows="5"></textarea><br>
+            <textarea type="text" id="spam_text" cols="40" rows="20"></textarea><br>
             <label for="add_pr">PR追加</label>
-            <input type="checkbox" id="add_pr" value="true">
+            <input type="checkbox" id="add_pr" value="pr" checked>
 
             <br>
 
-            <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button"
-                data-show-count="false">Tweet</a>
-            <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+            <div id ="tweet">
+                <a href="https://twitter.com/intent/tweet?text=ダミーテキスト" target="_blank">攻撃開始</a>
+            </div>
+
+            
         </div>
 
         <div id="content_controls">
@@ -61,7 +67,7 @@
                 </div>
             </div>
 
-            <div id="insert_text_list">
+            <div id="spam_message_list">
                 <div>
                     <input type="checkbox" id="dummy" value="false">
                     <label for="dummy">dummy</label>
@@ -71,8 +77,13 @@
             </div>
 
             <div>
+                <label for="image_url">追加画像URL</label>
+                <input type="input" class ="url" id="image_url" value ="https://x.com/Pri_Loudspeaker/status/1904218761919430806/photo/1" >
+            </div>
+
+            <div>
                 <label for="attack_rp">攻撃対象ポストURL</label>
-                <input type="input" id="attack_rp">
+                <input type="input" class ="url" id="attack_rp" value="https://x.com/Raja_oa2/status/1903054434654892363" >
             </div>
         </div>
 
@@ -81,7 +92,7 @@
 
     <div id="debug_log">
 
-        
+
     </div>
 
 
