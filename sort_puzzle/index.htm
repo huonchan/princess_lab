@@ -2,8 +2,15 @@
 <html>
 
 <head>
-    <title>WaterSortPuzzle_Prot</title>
+    <title>おひめパズル</title>
     <style>
+        .button-container button {
+            display: inline-block;
+            margin-right: 10px;
+            /* ボタン間の余白 */
+            padding: 10px 20px;
+        }
+
         .unit {
             display: inline-block;
             border-right: 2px solid black;
@@ -24,7 +31,7 @@
             /* width:16px;
             height:90px; */
             color: black;
-            font-size: xx-large;
+            font-size: 50px;
             line-height: 1.05;
             display: inline-block
         }
@@ -72,7 +79,8 @@
 </head>
 
 <body>
-    <h1>WaterSortPuzzle_Prot</h1>
+    <h1>おひめパズル（仮）</h1>
+    <div id="game_status"> お前が煩ってる時間[ 0:00:34 ] , 試行回数 [ 1 ]</div>
     <div id="game_screen">
 
 
@@ -100,25 +108,23 @@
         <!-- -->
 
     </div>
+    <div id="game_button_area">
+
+        <div class="button-container">
+            <button id="start_button">準備はいいか？野郎ども…！<br>START</button>
+            <button id="return_button">後戻りとかだっせぇなぁ…ｗ<br>RETURN</button>
+            <button id="add_test_tube">試験管増やすとか甘え…ｗ<br>ADD TEST TUBE</button>
+        </div>
+
+    </div>
 
     <div id="text_area">
         <div id="debug_log">
 
         </div>
 
-        <div>
-            遊び方<br>
-            <br>
-            試験管のつもりで作ったクソみたいな絵（きったねえ）の中にある<br>
-            カラフルなブロックを、全て同じ試験管に綺麗に揃えるだけの簡単なゲームだよ<br>
-            <br>
-            好きな試験管をクリックすると、一番上の揃った色を纏めて移動できるよ<br>
-            それを好きな所に配置して綺麗に揃えよう！<br>
-            <br>
-            …ん？プリンセスおひめさまの事だから「大事なこと言ってないだろ？」って？<br>
-            <br>
-            人聞き悪いなぁｗまぁやってみればわかるさｗ簡単だからｗ<br>
-            <br>
+        <div id="free_space">
+
         </div>
 
         <div id="ascii_art">
@@ -161,6 +167,7 @@
         #select_index = GameData.SELECT_NONE;
         #pick_array = [];
         #block_datas = [[]];
+        #start_time = 0;
 
 
         paramStrings() {
@@ -187,7 +194,34 @@
         InitializedTestTube() {
             //this.pick_array = [];
             var arr = [];
-            // 内部生成
+
+            //空の試験管追加
+            {
+                for (let i = 0; i < BLOCK_MAX * (START_FREE_TEST_TUBE + 6); i++) {
+                    arr.push(0);
+                }
+            }
+
+            //２次元配列加工
+            this.block_datas = convertTo2DArrayFrom(arr, BLOCK_MAX);
+
+
+        }
+
+        InitializedParams() {
+            //todo あとで実装
+        }
+
+        Initialized() {
+            this.pick_array = [];
+            this.start_time = 0;
+            this.InitializedTestTube();
+            this.InitializedParams();
+        }
+
+        startGame() {
+            var arr = [];
+            // 初期ブロック生成
             {
                 for (let i = 0; i < START_USE_TEST_TUBE; i++) {
                     for (let j = 0; j < BLOCK_MAX; j++) {
@@ -208,18 +242,11 @@
                 }
             }
 
+
             //２次元配列加工
             this.block_datas = convertTo2DArrayFrom(arr, BLOCK_MAX);
-        }
 
-        InitializedParams() {
-            //todo あとで実装
-        }
-
-        Initialized() {
-            this.pick_array = [];
-            this.InitializedTestTube();
-            this.InitializedParams();
+            this.start_time = 1;
         }
 
         pushCheck(index, block_id) {
@@ -286,6 +313,33 @@
 
                 this.select_index = select_idx;
             }
+
+            //クリア判定
+            if (this.checkClear()) {
+                free_space_text = `やっとクリアしたんかおせぇｗ`;
+            } else {
+
+                free_space_text = `まだおわんねぇのか？ｗ`;
+            }
+        }
+
+        checkClear() {
+            /*this.block_datas.forEach(test_tube => {
+                let start_id = test_tube[0];
+                test_tube.forEach(id => {
+                    if( id != start_id ) {
+                        return false;
+                    }
+                });
+            });*/
+
+            for(let i = 0 ; i < this.block_datas.length ; i++ )
+            {
+                if( new Set(this.block_datas[i]).size > 1 ){return false ;}
+            }
+
+
+            return true;
         }
 
         getBlockCount(idx) {
@@ -308,11 +362,16 @@
             return this.select_index;
         }
 
+        getStartTime() {
+            return this.start_time;
+        }
+
 
     };
 
     let game_data = new GameData();
     game_data.Initialized();
+    free_space_text = `おう早くしろよ`;
 
     function UpdateScreen() {
 
@@ -346,19 +405,18 @@
             `
             }
 
+
+
             //試験管内部描画
-            html += `<div class="unit unit${test_tube_index}">
-                `
+            html += `<div class="unit unit${test_tube_index}">`;
+
             row.forEach(element => {
 
-                if (element === 0) {
-                    html += `<div class="hidden">${BLOCK_CHAR}<br></div>
-                    `;
+                if (element !== 0 && game_data.getStartTime() != 0) {
+                    html += `<div class="${COLORS[element]}">${BLOCK_CHAR}<br></div>`;
                 } else {
-                    html += `<div class="${COLORS[element]}">${BLOCK_CHAR}<br></div>
-                    `;
+                    html += `<div class="hidden">${BLOCK_CHAR}<br></div>`;
                 }
-
 
             });
 
@@ -379,12 +437,14 @@
             debug_log.innerHTML = game_data.paramStrings();
         }
 
+        const free_space = document.getElementById("free_space");
+        free_space.innerHTML = free_space_text;
 
         const ascii_art = document.getElementById("ascii_art");
 
         var aa = "";
 
-        aa += "OK、ブラクラゲット。<br>";
+        /*aa += "OK、ブラクラゲット。<br>";
         aa += "　　　　　　　　　　∧＿∧<br>";
         aa += "　　　　 ∧＿∧ 　（´<_｀ ）　流石だよな俺ら。<br>";
         aa += "　　　（　´_ゝ`）/　　 ⌒i<br>";
@@ -392,6 +452,22 @@
         aa += "　　/　　 　/￣￣￣￣/　|<br>";
         aa += "＿_(__ﾆつ/　 FMV　 / .| .|＿＿＿＿<br>";
         aa += "　　　 ＼/＿＿＿＿/　（u　⊃<br>";
+        ascii_art.innerHTML = aa;*/
+
+
+        aa += "        　　　　 　　、　i、 　 _　-‐　´￣￣｀ヽ、<br>";
+        aa += "　　 　　 ,へ､!ｰ! ｰ'´　　　　　　　　　　｀ｰ-､<br>";
+        aa += "　　 　 /　 ,r'´　,　　　　　　　,i　　　　　　　 ヽ_, -'´ヽ<br>";
+        aa += "　　 　 !_ /　／,'　　 ／ /　 / l　　l i　　　 　　', 　 　 !<br>";
+        aa += "　　　ｒ-'ヽ　i　l　　 /_＿ｌ_　ｌ　 !_,,-i､ｌ　ヽ ､　ｒ'´ー-､_ｌ<br>";
+        aa += "　　　ｌ　　_｀＞､ー,r'´,二￣ 　 ｀￣ ｀ヽ‐'､_ｌ_ｌ　　　 　ヽ<br>";
+        aa += "　　　｀i'´　　 　 !　 , -rﾆ､｀　　 '´,二,ヽ、　 l´￣｀ヽ､/<br>";
+        aa += "　　　　ｌ　 _, -―!　　 ﾋ'_ﾉ　　　　ｌヒ_j　　　∧_　　　 !<br>";
+        aa += "　 　 　 Y´　　 _j i　　　　　'　　　 　 　 　 / l　 ｀ヽr'<br>";
+        aa += "　　　 　 !_　＜_ ｀ｌ　　　　　＿,　　　　　 /-'‐-､_　ｌ<br>";
+        aa += "　 　 　 　 ｀! r-'　ヽ、_　　　　　　　　_ノ´　 ら´ｒ-'<br>";
+        aa += "　　　　　　　｀　　　　　｀ーｧ==-＜´｀ヽ　　'ー '<br>";
+        aa += "　　　　　　　　　　　　, イ´!_,へ_/ｌ｀ｌヽ<br>";
         ascii_art.innerHTML = aa;
 
 
@@ -417,6 +493,16 @@
             }
         });
     }
+
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const startButton = document.getElementById("start_button");
+        startButton.addEventListener("click", () => {
+            game_data.startGame();
+            free_space_text = `やっと始めやがったかおせぇ`;
+            UpdateScreen();
+        });
+    });
 
 
 
