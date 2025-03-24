@@ -266,9 +266,12 @@ function UpdateScreen() {
     const game_screen = document.getElementById("game_screen");
     game_screen.innerHTML = html;
 
-    const debug_log = document.getElementById("debug_log");
-
-    debug_log.innerHTML = game_data.paramStrings();
+    if( false )
+    {
+        const debug_log = document.getElementById("debug_log");
+        debug_log.innerHTML = game_data.paramStrings();
+    }
+    
 
     const ascii_art = document.getElementById("ascii_art");
 
