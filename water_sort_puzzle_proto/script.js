@@ -7,7 +7,10 @@ const VERTICAL_LINE = 2;//2
 const BLOCK_MAX = 4;
 const START_FREE_TEST_TUBE = 2;
 const START_USE_TEST_TUBE = HORIZONTAL_LINE * VERTICAL_LINE - START_FREE_TEST_TUBE;
-
+const BLOCK_CHAR = "█";
+//const BLOCK_CHAR ="♥";
+//const BLOCK_CHAR ="🤓";
+//const BLOCK_CHAR ="牛角の男性差別商法。私の導火線に火がついた。絶対ゆるさねぇぞ。今まで個人店のレディースデーは数え切れないほど潰してきたけど、今度は名の通った企業相手だから、全身全霊で戦いを挑んでやる。久々に闘志が沸いてきたよ。合法の範囲で使える手はどんな手を使ってでも戦ってやる";
 const COLORS = ["none", "blue", "red", "yellow", "green", "yellow_green", "palevioletred", "purple"];
 
 
@@ -27,9 +30,27 @@ class GameData {
 
 
     paramStrings() {
+
+
+        var test_tubes_param = ``;
+
+        for (let i = 0; i < this.block_datas.length; i++) {
+            test_tubes_param += `num${i} : `;
+            for (let j = 0; j < this.block_datas[i].length; j++) {
+                test_tubes_param += `${this.block_datas[i][j]} `;
+            }
+            test_tubes_param += `<br>`;
+        }
+
+
+
+
         return `
             select index = ${this.select_index}<br>
             pick_array length = ${this.pick_array.length}<br>
+            test_tube num = ${this.block_datas.length}<br>
+              test tubes<br>
+              ${test_tubes_param}
         `
     }
 
@@ -68,7 +89,16 @@ class GameData {
     Initialized() {
         this.pick_array = [];
         this.InitializedTestTube();
-        this.InitializedParams()
+        this.InitializedParams();
+    }
+
+    pushCheck(index, block_id) {
+        //this.getBlockCount() == 0 || 
+        console.log(`fetch() index ${index} , getBlockCount ${this.getBlockCount(index)}`);
+        if( this.getBlockCount(index) == 0 ) return true;
+        console.log(`index ${index }, try in block id ${block_id} , target block id ${this.fetch(index)}`);
+        if( block_id == this.fetch(index) ) return true ;
+        return false;
     }
 
     pushSingle(target_idx, block_id) {
@@ -81,7 +111,14 @@ class GameData {
         return false;
     }
 
+    fetch(target_idx)
+    {
+        //console.log(`fetch() getblockblank ${this.getBlockBlank(target_idx)}`);
+        return this.block_datas[target_idx][this.getBlockBlank(target_idx)-1];
+    }
+
     push(target_idx, block_arr) {
+
         for (let i = block_arr.length - 1; i >= 0; i--) {
             if (this.pushSingle(target_idx, block_arr[i])) {
                 block_arr.pop();
@@ -92,13 +129,24 @@ class GameData {
     }
 
     onTap(select_idx) {
-        console.log('select_idx ' + select_idx);
+        
         //let IS_TAP_SELECT_INDEX = this.select_index == select_idx;
         let IS_PICKMODE = this.pick_array.length > 0;
         if (IS_PICKMODE) {
-            //ターゲットの試験管に、今pickしてるものをいれてみる
-            this.pick_array = this.push(select_idx, this.pick_array);
+            let IS_DIFF_INDEX = this.select_index != select_idx;
+            console.log(`is diff index ${IS_DIFF_INDEX}`);
+            if (IS_DIFF_INDEX) {
+                if (this.pushCheck(select_idx,this.pick_array[this.pick_array.length-1])) {
+                    this.pick_array = this.push(select_idx, this.pick_array);
+                } else {
+                    //できるならいれれない旨の処理
+                }
+            } else {
+                this.pick_array = this.push(select_idx, this.pick_array);
+            }
+
         } else {
+            //console.log('select_idx ' + select_idx);
             for (let i = this.getBlockBlank(select_idx); i < this.block_datas[select_idx].length; i++) {
 
                 if (this.pick_array.length != 0) {
@@ -111,24 +159,24 @@ class GameData {
                 console.log('i ' + i);
 
                 this.pick_array.push(this.block_datas[select_idx][i]);
-                    //this.pick_array.push(1);
-                    this.block_datas[select_idx][i] = 0;
+                //this.pick_array.push(1);
+                this.block_datas[select_idx][i] = 0;
 
             }
         }
         this.select_index = select_idx;
     }
 
-    getBlockCount(idx){
+    getBlockCount(idx) {
         var cnt = 0;
-        for (let i = BLOCK_MAX-1; i >0; i--) {
-            if (this.block_datas[i] == 0) { break; }
-            cnt++;
+        for (let i = 0 ; i < this.block_datas[idx].length; i++) {
+            if (this.block_datas[idx][i] != 0) { cnt++; }
         }
         return cnt;
     }
 
     getBlockBlank(idx) {
+        //console.log("getBlockBlank idx:"+idx);
         var cnt = 0;
         for (let i = 0; i < this.block_datas[idx].length; i++) {
             if (this.block_datas[idx][i] != 0) { break; }
@@ -170,19 +218,19 @@ function UpdateScreen() {
             html += `<div class="space">`;
             for (let i = 0; i < BLOCK_MAX; i++) {
                 if (i < game_data.pickLength()) {
-                    html += `<div class="${COLORS[game_data.pick(i)]}">█<br></div>`;
+                    html += `<div class="${COLORS[game_data.pick(i)]}">${BLOCK_CHAR}<br></div>`;
                     //html += `<div class="blue">█<br></div>`;
                 } else {
-                    html += `<div class="hidden">█<br></div>`;
+                    html += `<div class="hidden">${BLOCK_CHAR}<br></div>`;
                 }
             }
             html += `</div>`;
         } else {
             html += `<div class="space">
-            <div class="hidden">█<br></div>
-            <div class="hidden">█<br></div>
-            <div class="hidden">█<br></div>
-            <div class="hidden">█<br></div>
+            <div class="hidden">${BLOCK_CHAR}<br></div>
+            <div class="hidden">${BLOCK_CHAR}<br></div>
+            <div class="hidden">${BLOCK_CHAR}<br></div>
+            <div class="hidden">${BLOCK_CHAR}<br></div>
             </div>
             `
         }
@@ -193,10 +241,10 @@ function UpdateScreen() {
         row.forEach(element => {
 
             if (element === 0) {
-                html += `<div class="hidden">█<br></div>
+                html += `<div class="hidden">${BLOCK_CHAR}<br></div>
                     `;
             } else {
-                html += `<div class="${COLORS[element]}">█<br></div>
+                html += `<div class="${COLORS[element]}">${BLOCK_CHAR}<br></div>
                     `;
             }
 
