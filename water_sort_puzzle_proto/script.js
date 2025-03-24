@@ -93,10 +93,7 @@ class GameData {
     }
 
     pushCheck(index, block_id) {
-        //this.getBlockCount() == 0 || 
-        console.log(`fetch() index ${index} , getBlockCount ${this.getBlockCount(index)}`);
         if (this.getBlockCount(index) == 0) return true;
-        console.log(`index ${index}, try in block id ${block_id} , target block id ${this.fetch(index)}`);
         if (block_id == this.fetch(index)) return true;
         return false;
     }
@@ -148,7 +145,6 @@ class GameData {
             }
 
         } else {
-            //console.log('select_idx ' + select_idx);
             for (let i = this.getBlockBlank(select_idx); i < this.block_datas[select_idx].length; i++) {
 
                 if (this.pick_array.length != 0) {
@@ -158,10 +154,7 @@ class GameData {
                     }
                 }
 
-                console.log('i ' + i);
-
                 this.pick_array.push(this.block_datas[select_idx][i]);
-                //this.pick_array.push(1);
                 this.block_datas[select_idx][i] = 0;
 
             }
@@ -171,21 +164,11 @@ class GameData {
     }
 
     getBlockCount(idx) {
-        var cnt = 0;
-        for (let i = 0; i < this.block_datas[idx].length; i++) {
-            if (this.block_datas[idx][i] != 0) { cnt++; }
-        }
-        return cnt;
+        return this.block_datas[idx].filter(id => id !== 0).length;
     }
 
     getBlockBlank(idx) {
-        //console.log("getBlockBlank idx:"+idx);
-        var cnt = 0;
-        for (let i = 0; i < this.block_datas[idx].length; i++) {
-            if (this.block_datas[idx][i] != 0) { break; }
-            cnt++;
-        }
-        return cnt;
+        return this.block_datas[idx].filter(id => id === 0).length;
     }
 
     pick(idx) {
