@@ -20,22 +20,20 @@ function convertTo2DArrayFrom(array, length) {
 
 //実データ
 class GameData {
-    static SELECT_NONE = -1 ;
+    static SELECT_NONE = -1;
     #select_index = GameData.SELECT_NONE;
     #pick_array = [];
     #block_datas = [[]];
 
 
-    paramStrings()
-    {
+    paramStrings() {
         return `
             select index = ${this.select_index}<br>
             pick_array length = ${this.pick_array.length}<br>
         `
     }
 
-    InitializedTestTube()
-    {
+    InitializedTestTube() {
         //this.pick_array = [];
         var arr = [];
         // 内部生成
@@ -63,23 +61,19 @@ class GameData {
         this.block_datas = convertTo2DArrayFrom(arr, BLOCK_MAX);
     }
 
-    InitializedParams(){
+    InitializedParams() {
         //todo あとで実装
     }
 
-    Initialized() 
-    {
+    Initialized() {
         this.pick_array = [];
         this.InitializedTestTube();
         this.InitializedParams()
     }
 
-    pushSingle( target_idx , block_id )
-    {
-        for(let i = BLOCK_MAX -1 ; i >= 0 ; i-- )
-        {
-            if( this.block_datas[target_idx][i] == 0 )
-            {
+    pushSingle(target_idx, block_id) {
+        for (let i = BLOCK_MAX - 1; i >= 0; i--) {
+            if (this.block_datas[target_idx][i] == 0) {
                 this.block_datas[target_idx][i] = block_id;
                 return true;
             }
@@ -87,73 +81,71 @@ class GameData {
         return false;
     }
 
-    push(target_idx , block_arr)
-    {
-        for(let i = block_arr.length -1 ; i >= 0 ; i-- )
-        {
-            if( this.pushSingle(target_idx,block_arr[i]) )
-            {
-                 block_arr.pop();
+    push(target_idx, block_arr) {
+        for (let i = block_arr.length - 1; i >= 0; i--) {
+            if (this.pushSingle(target_idx, block_arr[i])) {
+                block_arr.pop();
             }
         }
 
         return block_arr;
     }
 
-    onTap( select_idx )
-    {
-        console.log('select_idx '+select_idx);
+    onTap(select_idx) {
+        console.log('select_idx ' + select_idx);
         //let IS_TAP_SELECT_INDEX = this.select_index == select_idx;
-        let IS_PICKMODE = this.pick_array.length > 0 ;
-        if( IS_PICKMODE )
-        {
+        let IS_PICKMODE = this.pick_array.length > 0;
+        if (IS_PICKMODE) {
             //ターゲットの試験管に、今pickしてるものをいれてみる
-            this.pick_array = this.push(select_idx,this.pick_array);
-        }else
-        {
-            for(let i = this.getBlockBlank(select_idx) ; i < this.block_datas[select_idx].length ; i++ )
-                {
-        
-                    if( this.pick_array.length > 0 &&
-                         i > 0 &&
-                        this.pick_array[0] != this.block_datas[select_idx][i]
-                    )
-                    {
+            this.pick_array = this.push(select_idx, this.pick_array);
+        } else {
+            for (let i = this.getBlockBlank(select_idx); i < this.block_datas[select_idx].length; i++) {
+
+                if (this.pick_array.length != 0) {
+                    if (this.pick_array[0] != this.block_datas[select_idx][i] //前回入手した色と違う
+                    ) {
                         break;
                     }
-        
-                    this.pick_array.push(this.block_datas[select_idx][i]);
-                    //this.pick_array.push(1);
-                    this.block_datas[select_idx][i]= 0;
                 }
+
+                console.log('i ' + i);
+
+                this.pick_array.push(this.block_datas[select_idx][i]);
+                    //this.pick_array.push(1);
+                    this.block_datas[select_idx][i] = 0;
+
+            }
         }
-        this.select_index = select_idx ;
+        this.select_index = select_idx;
     }
 
-    getBlockBlank(idx)
-    {
+    getBlockCount(idx){
         var cnt = 0;
-        for(let i = 0 ; i < this.block_datas[idx].length ; i++ )
-        {
-            if(this.block_datas[idx] != 0) {break;}
-            cnt ++ ;
+        for (let i = BLOCK_MAX-1; i >0; i--) {
+            if (this.block_datas[i] == 0) { break; }
+            cnt++;
         }
-
         return cnt;
     }
 
-    pick(idx)
-    {
+    getBlockBlank(idx) {
+        var cnt = 0;
+        for (let i = 0; i < this.block_datas[idx].length; i++) {
+            if (this.block_datas[idx][i] != 0) { break; }
+            cnt++;
+        }
+        return cnt;
+    }
+
+    pick(idx) {
         return this.pick_array[idx];
     }
 
-    pickLength()
-    {
+    pickLength() {
         return this.pick_array.length;
     }
 
-    selectIndex()
-    {
+    selectIndex() {
         return this.select_index;
     }
 
@@ -173,22 +165,19 @@ function UpdateScreen() {
 
         //試験管上部描画
         let IS_SELECT_INDEX = game_data.selectIndex() == test_tube_index;
-        if( IS_SELECT_INDEX )//ピックアップ中
+        if (IS_SELECT_INDEX)//ピックアップ中
         {
             html += `<div class="space">`;
             for (let i = 0; i < BLOCK_MAX; i++) {
-                if( i < game_data.pickLength() )
-                {
+                if (i < game_data.pickLength()) {
                     html += `<div class="${COLORS[game_data.pick(i)]}">█<br></div>`;
                     //html += `<div class="blue">█<br></div>`;
-                }else
-                {
+                } else {
                     html += `<div class="hidden">█<br></div>`;
                 }
             }
             html += `</div>`;
-        }else
-        {
+        } else {
             html += `<div class="space">
             <div class="hidden">█<br></div>
             <div class="hidden">█<br></div>
@@ -197,7 +186,7 @@ function UpdateScreen() {
             </div>
             `
         }
-        
+
         //試験管内部描画
         html += `<div class="unit unit${test_tube_index}">
                 `
@@ -219,7 +208,7 @@ function UpdateScreen() {
             </div>
             `;
 
-            test_tube_index += 1;
+        test_tube_index += 1;
     });
 
 
