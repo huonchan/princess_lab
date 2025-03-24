@@ -21,7 +21,7 @@
 
         .test_tube {
             padding: 1px;
-            margin: 12px;
+            margin: 6px;
             /* width:16px;
             height:90px; */
             color: black;
@@ -69,6 +69,7 @@
             color: purple;
             pointer-events: none
         }
+
         .skyblue {
             color: skyblue;
             pointer-events: none
@@ -155,7 +156,7 @@
     //const BLOCK_CHAR ="♥";
     //const BLOCK_CHAR ="🤓";
     //const BLOCK_CHAR ="牛角の男性差別商法。私の導火線に火がついた。絶対ゆるさねぇぞ。今まで個人店のレディースデーは数え切れないほど潰してきたけど、今度は名の通った企業相手だから、全身全霊で戦いを挑んでやる。久々に闘志が沸いてきたよ。合法の範囲で使える手はどんな手を使ってでも戦ってやる";
-    const COLORS = ["none", "blue", "red", "yellow", "green", "yellow_green", "palevioletred", "purple","skyblue","glay"];
+    const COLORS = ["none", "blue", "red", "yellow", "green", "yellow_green", "palevioletred", "purple", "skyblue", "glay"];
 
 
     //一次元配列を２次元配列に変換する
@@ -269,14 +270,17 @@
                 if (IS_DIFF_INDEX) {
                     if (this.pushCheck(select_idx, this.pick_array[this.pick_array.length - 1])) {
                         this.pick_array = this.push(select_idx, this.pick_array);
-
-                        this.select_index = select_idx;
+                        if (this.pick_array.length == 0) {
+                            this.select_index = select_idx;
+                        }
                     } else {
                         //できるならいれれない旨の処理
                     }
                 } else {
                     this.pick_array = this.push(select_idx, this.pick_array);
+
                     this.select_index = select_idx;
+
                 }
 
             } else {
