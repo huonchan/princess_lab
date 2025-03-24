@@ -14,6 +14,9 @@
             padding: 10px;
         }
 
+        #target_list {
+            background-color: red;
+        }
 
         #insert_text_list {
             background-color: aquamarine;
@@ -51,29 +54,18 @@
                 <input type="checkbox" id="hide_timeline" value="false">
                 <br>
 
-                <label for="frozen_anonymass">凍結済みの誰か</label>
-                <input type="checkbox" id="frozen_anonymass" value="false">
+                <div id="target_list">
+                    <label for="koukasu">公カス</label>
+                    <input type="checkbox" id="koukasu" value="false">
 
-                <label for="koukasu">公カス</label>
-                <input type="checkbox" id="koukasu" value="false">
-
-                <label for="hoock">ホック</label>
-                <input type="checkbox" id="hoock" value="false">
-
-                <label for="little_witch">超絶劣化SCP魔女</label>
-                <input type="checkbox" id="little_witch" value="false">
+                </div>
             </div>
 
             <div id="insert_text_list">
                 <div>
-                    <input type="checkbox" id="purary" value="false">
-                    <label for="purary">プラリー</label>
-                    <textarea type="text" id="purary_text" cols="50" rows="3"></textarea>
-                </div>
-                <div>
-                    <input type="checkbox" name="kurashiru_reward" value="false">
-                    <label for="kurashiru_reward">クラシルリワード</label>
-                    <textarea type="text" cols="50" rows="3"></textarea>
+                    <input type="checkbox" id="dummy" value="false">
+                    <label for="dummy">dummy</label>
+                    <textarea type="text" id="dummy_text" cols="50" rows="3"></textarea>
                 </div>
 
             </div>
@@ -84,6 +76,12 @@
             </div>
         </div>
 
+    </div>
+
+
+    <div id="debug_log">
+
+        
     </div>
 
 
