@@ -11,6 +11,7 @@ const START_USE_TEST_TUBE = HORIZONTAL_LINE * VERTICAL_LINE - START_FREE_TEST_TU
 const COLORS = ["none", "blue", "red", "yellow", "green", "yellow_green", "palevioletred", "purple"];
 
 
+//一次元配列を２次元配列に変換する
 function convertTo2DArrayFrom(array, length) {
     return Array.from({ length: Math.ceil(array.length / length) }, (_, i) =>
         array.slice(i * length, (i + 1) * length)
@@ -18,16 +19,11 @@ function convertTo2DArrayFrom(array, length) {
 }
 
 //実データ
-
 class GameData {
-    static pick_index ;
-    static pick_array ;
-    static block_datas = [[]];
-
-    constructor() {
-        this.pick_index = -1;
-        this.pick_array = [];
-    }
+    static PICK_NONE = -1 ;
+    pick_index = GameData.PICK_NONE;
+    pick_array = [];
+    block_datas = [[]];
 
     Initialized() 
     {
@@ -64,6 +60,15 @@ class GameData {
         this.pick_index = select_idx ;
         for(let i = 0 ; i < this.block_datas[select_idx].length ; i++ )
         {
+
+            if( i > 0 )
+            {
+                if( this.pick_array[0] != this.block_datas[select_idx][i] )
+                {
+                    break;
+                }
+            }
+
             this.pick_array.push(this.block_datas[select_idx][i]);
             //this.pick_array.push(1);
             this.block_datas[select_idx][i]= 0;
