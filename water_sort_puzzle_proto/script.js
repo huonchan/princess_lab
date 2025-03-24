@@ -21,12 +21,13 @@ function convertTo2DArrayFrom(array, length) {
 //実データ
 class GameData {
     static SELECT_NONE = -1 ;
-    pick_index = GameData.SELECT_NONE;
-    pick_array = [];
-    block_datas = [[]];
+    #select_index = GameData.SELECT_NONE;
+    #pick_array = [];
+    #block_datas = [[]];
 
     InitializedTestTube()
     {
+        //this.pick_array = [];
         var arr = [];
         // 内部生成
         {
@@ -59,18 +60,18 @@ class GameData {
 
     Initialized() 
     {
+        this.pick_array = [];
         this.InitializedTestTube();
         this.InitializedParams()
     }
 
     onTap( select_idx )
     {
-        let IS_TAP_SELECT_INDEX = this.pick_index == select_idx;
+        let IS_TAP_SELECT_INDEX = this.select_index == select_idx;
 
         if( IS_TAP_SELECT_INDEX)
         {
 
-            //this.pick_index = select_idx ;
         }else
         {
             for(let i = 0 ; i < this.block_datas[select_idx].length ; i++ )
@@ -89,8 +90,25 @@ class GameData {
                     this.block_datas[select_idx][i]= 0;
                 }
         }
-        this.pick_index = select_idx ;
+        this.select_index = select_idx ;
     }
+
+
+    pick(idx)
+    {
+        return this.pick_array[idx];
+    }
+
+    pickLength()
+    {
+        return this.pick_array.length;
+    }
+
+    selectIndex()
+    {
+        return this.select_index;
+    }
+
 
 };
 
@@ -106,14 +124,14 @@ function UpdateScreen() {
         html += `<div class="test_tube">`;
 
         //試験管上部描画
-        let IS_SELECT_INDEX = game_data.pick_index == test_tube_index;
+        let IS_SELECT_INDEX = game_data.selectIndex() == test_tube_index;
         if( IS_SELECT_INDEX )//ピックアップ中
         {
             html += `<div class="space">`;
             for (let i = 0; i < BLOCK_MAX; i++) {
-                if( i < game_data.pick_array.length )
+                if( i < game_data.pickLength() )
                 {
-                    html += `<div class="${COLORS[game_data.pick_array[i]]}">█<br></div>`;
+                    html += `<div class="${COLORS[game_data.pick(i)]}">█<br></div>`;
                     //html += `<div class="blue">█<br></div>`;
                 }else
                 {
