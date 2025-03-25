@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>TwitterCharCount</title>
+</head>
+
+<style>
+    div {
+        margin: 0px 0px 0px 20px;
+    }
+</style>
+
+<body>
+    <h1>TwitterCharCount</h1>
+
+    <textarea type="text" id="text_area" cols="80" rows="30"></textarea><br>
+    <div id="char_count">正味文字数:0</div>
+    <div id="wwitter_char_count">Twitter文字数:0</div>
+    <textarea type="text" id="emoji_area" cols="80" rows="2"></textarea><br>
+    <div id="is_emoji">絵文字:false</div>
+
+</body>
+
+<script>
+
+    function isEmoji(text) {
+        if (text.length === 1) {
+            const charCode = text.charCodeAt(0);
+            return (charCode >= 0x1F300 && charCode <= 0x1F6FF);
+        } else {
+            // SMPの絵文字や結合文字シーケンスを考慮する場合、より複雑な処理が必要
+            const codePoint = text.codePointAt(0);
+            return (codePoint >= 0x1F300 && codePoint <= 0x1F6FF) || (codePoint >= 0x10000);
+        }
+    }
+
+    function countCharacters(text) {
+        //console.log("countCharacters len :" + text.length + " c :" + text);
+        let count = 0;
+        const urlRegex = /(https?:\/\/[^\s]+)/g;
+        const urls = text.match(urlRegex);
+      
+        if (urls) {
+          count += urls.length * 12;
+          text = text.replace(urlRegex, ""); // URLを除外
+        }
+
+        for (let i = 0; i < text.length; i++) {
+
+            
+            //絵文字の判定を行う
+            /*const codePoint = text.codePointAt(i);
+            if ((codePoint >= 0x1F300 && codePoint <= 0x1F6FF) || (codePoint >= 0x10000)) {
+                //サロゲートペア処理
+                count += 1; // 絵文字
+                //i+=2;
+                continue;
+            }*/
+
+            //console.log("count :"+charCode.toString(16));
+            const charCode = text.charCodeAt(i);
+            //でなければ、純粋な文字として見る
+            if ((charCode >= 0x00 && charCode < 0x81) ||
+                (charCode === 0xf0) ||
+                (charCode >= 0xff61 && charCode <= 0xffdc) ||
+                (charCode >= 0xffe8 && charCode <= 0xffee)
+            ) {
+                count += 1; // 半角文字
+            } else {
+                count += 2; // 全角文字
+            }
+        }
+        return count;
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const textarea = document.getElementById("text_area");
+        if (textarea) {
+            textarea.addEventListener("input", function () {
+                //console.log("textareaの内容が変更されました:", textarea.value);
+                const char_count = document.getElementById("char_count");
+                char_count.textContent = `正味文字数:${countCharacters(textarea.value) }`;
+                const wwitter_char_count = document.getElementById("wwitter_char_count");
+
+                let limit = 280 - countCharacters(textarea.value) ;
+                wwitter_char_count.textContent = `Twitter 文字数制限表示:${ limit }`;
+            });
+        }
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const textarea = document.getElementById("emoji_area");
+        if (textarea) {
+            textarea.addEventListener("input", function () {
+                //console.log("textareaの内容が変更されました:", textarea.value);
+                const is_emoji = document.getElementById("is_emoji");
+                is_emoji.textContent = `絵文字:${isEmoji(textarea.value)}`;
+            });
+        }
+    });
+
+</script>
+
+
+</html>

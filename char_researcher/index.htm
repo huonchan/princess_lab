@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>文字分析機</title>
+</head>
+
+<style>
+    div {
+        margin: 0px 0px 0px 20px;
+    }
+</style>
+
+<body>
+    <h1>文字分析機</h1>
+    <div>入力した一文字（絵文字とかも含めて）をいろんな視点から分析する</div>
+
+    <textarea type="text" id="text_area" cols="80" rows="1"></textarea><br>
+    <div id="base data">ベースデータ</div>
+    <div id="char_size">半角か全角か:</div>
+    <div id="char_code">CharCode</div>
+    <div id="code_point">CodePoint</div>
+    <div id="is_emoji">絵文字 ? </div>
+    <div id="is_sarogate_pair">サロゲートペア ? </div>
+
+</body>
+
+<script>
+
+    function isSarogatePair(text)
+    {
+        const charCode = text.charCodeAt(0);
+        if( 0xD800 < charCode && charCode < 0xDBFF )
+        {
+            return true ;
+        }
+        return false ;
+    }
+
+    function isEmoji(text) {
+        if (text.length === 1) {
+            const charCode = text.charCodeAt(0);
+            return (charCode >= 0x1F300 && charCode <= 0x1F6FF);
+        } else {
+            // SMPの絵文字や結合文字シーケンスを考慮する場合、より複雑な処理が必要
+            const codePoint = text.codePointAt(0);
+            return (codePoint >= 0x1F300 && codePoint <= 0x1F6FF) || (codePoint >= 0x10000);
+        }
+
+        return false ;
+    }
+
+    function countCharacters(text) {
+        //console.log("countCharacters len :" + text.length + " c :" + text);
+        let count = 0;
+        const urlRegex = /(https?:\/\/[^\s]+)/g;
+        const urls = text.match(urlRegex);
+
+        if (urls) {
+            count += urls.length * 12;
+            text = text.replace(urlRegex, ""); // URLを除外
+        }
+
+        for (let i = 0; i < text.length; i++) {
+
+
+            //絵文字の判定を行う
+            const codePoint = text.codePointAt(i);
+            if ((codePoint >= 0x1F300 && codePoint <= 0x1F6FF) || (codePoint >= 0x10000)) {
+                //サロゲートペア処理
+                count += 1; // 絵文字
+                //i+=2;
+                continue;
+            }
+
+            //console.log("count :"+charCode.toString(16));
+            const charCode = text.charCodeAt(i);
+            //でなければ、純粋な文字として見る
+            if ((charCode >= 0x00 && charCode < 0x81) ||
+                (charCode === 0xf0) ||
+                (charCode >= 0xff61 && charCode <= 0xffdc) ||
+                (charCode >= 0xffe8 && charCode <= 0xffee)
+            ) {
+                count += 1; // 半角文字
+            } else {
+                count += 2; // 全角文字
+            }
+        }
+        return count;
+    }
+
+    function getCharSize(char) {
+        const charCode = char.charCodeAt(0);
+        //でなければ、純粋な文字として見る
+        if ((charCode >= 0x00 && charCode < 0x81) ||
+            (charCode === 0xf0) ||
+            (charCode >= 0xff61 && charCode <= 0xffdc) ||
+            (charCode >= 0xffe8 && charCode <= 0xffee)
+        ) {
+            return 1; // 半角文字
+        }
+
+        return 2;
+    }
+
+    function getCharCode(text) {
+        var charCodeStr = "charCode : ";
+        for (let i = 0; i < text.length; i++) {
+            charCodeStr += ` ${text.charCodeAt(i).toString(16)}`;
+        }
+        return charCodeStr;
+    }
+
+    function getCodePoint(text) {
+        var codePointStr = "codePoint : ";
+        for (let i = 0; i < text.length; i++) {
+            codePointStr += ` ${text.codePointAt(i).toString(16)}`;
+        }
+        return codePointStr;
+    }
+
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const textarea = document.getElementById("text_area");
+        if (textarea) {
+            textarea.addEventListener("input", function () {
+                //console.log("textareaの内容が変更されました:", textarea.value);
+                //const char_count = document.getElementById("char_count");
+                //char_count.textContent = `正味文字数:${countCharacters(textarea.value) }`;
+
+                const char_size = document.getElementById("char_size");
+                char_size.textContent = `半角は1 全角は2:${getCharSize(textarea.value)}`;
+
+                const char_code = document.getElementById("char_code");
+                char_code.textContent = `CharCode:${getCharCode(textarea.value)}`;
+
+                const code_point = document.getElementById("code_point");
+                code_point.textContent = `CodePoint:${getCodePoint(textarea.value)}`;
+
+                
+                const is_emoji = document.getElementById("is_emoji");
+                is_emoji.textContent = `絵文字 ? :${isEmoji(textarea.value)}`;
+
+
+                const is_sarogate_pair = document.getElementById("is_sarogate_pair");
+                is_sarogate_pair.textContent = `サロゲートペア ? :${isSarogatePair(textarea.value)}`;
+            });
+        }
+    });
+
+
+</script>
+
+
+</html>
