@@ -2,8 +2,11 @@
 const BOOT_LINK_DEFAULT =new Map();
 BOOT_LINK_DEFAULT.set("gemini", "https://gemini.google.com/app");
 BOOT_LINK_DEFAULT.set("Youtube", "https://www.youtube.com/");
-BOOT_LINK_DEFAULT.set("縄張り", "https://scrapbox.io/princess-room/%E7%B8%84%E5%BC%B5%E3%82%8A");
-BOOT_LINK_DEFAULT.set("第1サティアン","file:///C:/Users/h/%E3%83%9E%E3%82%A4%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB/web-dev/satyam/index.htm?search=#");
+BOOT_LINK_DEFAULT.set("Music", "https://music.youtube.com/");
+BOOT_LINK_DEFAULT.set("おひメモ", "https://scrapbox.io/princess-memo/%E3%81%8A%E3%81%B2%E3%83%A1%E3%83%A2");
+BOOT_LINK_DEFAULT.set("メモ帳", "https://scrapbox.io/princess-memo/%E3%83%A1%E3%83%A2%E5%B8%B3");
+BOOT_LINK_DEFAULT.set("第1サティアン","file:///C:/Users/h/%E3%83%9E%E3%82%A4%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB/web-dev/satyam/index.htm");
+BOOT_LINK_DEFAULT.set("第7サティアン","file:///C:/Users/h/%E3%83%9E%E3%82%A4%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB/web-dev/alchemy/point-life/1/index.html");
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
