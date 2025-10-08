@@ -110,8 +110,10 @@ class TargetSelector {
     Initialized() {
         //TargetSelector.#targetMap = new Map();
         this.#targetMap.set("凍結済誰か", { id: "a", flag: false });
-        this.#targetMap.set("公カス", { id: "____I_____5____", flag: true });
+        this.#targetMap.set("公カス", { id: "____I_____5____", flag: false });
         this.#targetMap.set("ホック", { id: "gomi_dummy", flag: false });
+        this.#targetMap.set("Eカス", { id: "elonmusk", flag: true });
+        this.#targetMap.set("Xカス公式", { id: "x", flag: false });
 
     }
 

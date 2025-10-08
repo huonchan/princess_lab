@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>ライトボウガン計算機</title>
+</head>
+
+<style>
+    body {
+        /* 背景画像の指定 */
+        background-image: url('image.png'); /* 'your_image.png'を実際の画像ファイル名に置き換えてください */
+        /* 画像を繰り返さない */
+        background-repeat: no-repeat;
+        /* 画像を右下（right bottom）に配置 */
+        background-position: right bottom;
+    
+        /* (オプション) ページ全体に背景を表示する場合、高さ100%を設定 */
+        /* これがないと、body要素の高さがコンテンツの高さに合わせられ、画像が表示されない場合があります */
+        min-height: 97vh; /* ビューポートの高さに合わせて最小高さを設定 */
+        margin: 0; /* bodyのデフォルトのマージンをリセット */
+    }
+</style>
+
+<body>
+    <h1>だいたい合ってるライトボウガン計算機</h1>
+    <div>
+        <h2>入力項目</h2>
+        <label for="atk_input">攻撃力を入力:</label>
+        <input type="number" id="atk_input">
+    </div>
+    <div>
+        <h2>演算ステータス</h2>
+    </div>
+
+    <div>
+        <h2>演算ダメージ（弾）</h2>
+        <div id="calc_field">
+
+            <div id="calc_normal_lv1">
+
+            </div>
+
+            <div id="calc_normal_lv2">
+
+            </div>
+
+            <div id="calc_normal_lv3">
+
+            </div>
+
+            <div id="calc_kantsu">
+
+            </div>
+
+            <div id="calc_sandan">
+
+            </div>
+
+            <div id="calc_hosan">
+
+            </div>
+
+
+            <div id="calc_tekko_lv1">
+
+            </div>
+            <div id="calc_tekko_lv2">
+
+            </div>
+            <div id="calc_tekko_lv3">
+
+            </div>
+
+
+            <div id="calc_kakusan_lv1">
+
+            </div>
+            <div id="calc_kakusan_lv2">
+
+            </div>
+            <div id="calc_kakusan_lv3">
+
+            </div>
+
+
+            <div id="calc_element">
+
+            </div>
+            <div id="calc_kantsu_element">
+
+            </div>
+
+            <div id="calc_ryu">
+
+            </div>
+            <div id="calc_kantsu_ryu">
+
+            </div>
+
+            <div id="calc_zanretsu">
+
+            </div>
+
+
+        </div>
+    </div>
+</body>
+
+</html>
+
+<script>
+
+    const atkInput = document.getElementById('atk_input');
+
+
+
+    const calcNormal1Div = document.getElementById('calc_normal_lv1');
+    const calcNormal2Div = document.getElementById('calc_normal_lv2');
+    const calcNormal3Div = document.getElementById('calc_normal_lv3');
+
+    
+    const calcKantsuDiv = document.getElementById('calc_kantsu');
+    const calcSandanDiv = document.getElementById('calc_sandan');
+    const calcHosanDiv = document.getElementById('calc_hosan');
+
+    
+    const calcTekko1Div = document.getElementById('calc_tekko_lv1');
+    const calcTekko2Div = document.getElementById('calc_tekko_lv2');
+    const calcTekko3Div = document.getElementById('calc_tekko_lv3');
+
+
+    const calcKakusan1Div = document.getElementById('calc_kakusan_lv1');
+    const calcKakusan2Div = document.getElementById('calc_kakusan_lv2');
+    const calcKakusan3Div = document.getElementById('calc_kakusan_lv3');
+
+    
+    const calcElementDiv = document.getElementById('calc_element');
+    const calcKantsuElementDiv = document.getElementById('calc_kantsu_element');
+
+    
+    const calcRyuDiv = document.getElementById('calc_ryu');
+    const calcKantsuRyuDiv = document.getElementById('calc_kantsu_ryu');
+
+    
+    const calcZanretsuDiv = document.getElementById('calc_zanretsu');
+
+    // 2. 呼び出したい関数を定義
+    function onAtkInputChange() {
+        // ここに、入力値が変更されたときに実行したい処理を書きます
+        const atk = atkInput.value; // input要素の現在の値を取得
+        console.log('攻撃力が変更されました:', atk);
+
+        {
+            const calc = 0.161 * atk;
+            calcNormal1Div.textContent = `【通常弾Lv1】単発：${calc}`;
+        }
+        
+
+        {
+            const calc = 0.222 * atk;
+            calcNormal2Div.textContent = `【通常弾Lv2】単発：${calc}`;
+        }
+
+        {
+            const calc = 0.343 * atk;
+            calcNormal3Div.textContent = `【通常弾Lv3】単発：${calc}`;
+        }
+
+        {
+            const calc = 0.07 * atk;
+            calcKantsuDiv.textContent = `【貫通弾】単発（適正）：${calc}　準適性：仮`;
+        }
+
+        {
+            const calc = 0.07 * atk;
+            calcSandanDiv.textContent = `【散弾】単発：${calc}`;
+        }
+
+        {
+            //const calc = 0.0513 * atk;
+            const calc = 0.059 * atk;
+            calcHosanDiv.textContent = `【放散弾】単発：${calc}`;
+        }
+
+        {
+            const calc1 = 0.01 * atk;
+            const calc2 = 0.125 * atk;
+            calcTekko1Div.textContent = `【徹甲榴弾Lv1】単発　着弾：${calc1} 　爆発：${calc2}`;
+        }
+
+        {
+            const calc1 = 0.01 * atk;
+            const calc2 = 0.158 * atk;
+            calcTekko2Div.textContent = `【徹甲榴弾Lv2】単発　着弾：${calc1} 　爆発：${calc2}`;
+        }
+
+        {
+            const calc1 = 0.01 * atk;
+            const calc2 = 0.197 * atk;
+            calcTekko3Div.textContent = `【徹甲榴弾Lv3】単発　着弾：${calc1} 　爆発：${calc2}`;
+        }
+
+        {
+            const calc1 = 0.01 * atk;
+            const calc2 = 0.111 * atk;
+            calcKakusan1Div.textContent = `【拡散弾Lv1】単発　着弾：${calc1} 　爆発：${calc2}`;
+        }
+
+        {
+            const calc1 = 0.01 * atk;
+            const calc2 = 0.164 * atk;
+            calcKakusan2Div.textContent = `【拡散弾Lv2】単発　着弾：${calc1} 　爆発：${calc2}`;
+        }
+
+        {
+            const calc1 = 0.159 * atk;
+            const calc2 = 0.121 * atk;
+            calcElementDiv.textContent = `【4属性弾】単発　物理：${calc1} 　属性：${calc2}`;
+        }
+
+        {
+            const calc1 = 0.1 * atk;
+            const calc2 = 0.069 * atk;
+            calcKantsuElementDiv.textContent = `【4属性貫通弾】単発　適正　物理：${calc1} 　属性：${calc2}`;
+        }
+
+
+        {
+            const calc1 = 0.479 * atk;
+            const calc2 = 0.242 * atk;
+            calcRyuDiv.textContent = `【滅龍弾】単発　物理：${calc1} 　属性：${calc2}`;
+        }
+
+        {
+            const calc1 = 0.2 * atk;
+            const calc2 = 0.132 * atk;
+            calcKantsuRyuDiv.textContent = `【貫通滅龍弾】単発　適正　物理：${calc1} 　属性：${calc2}`;
+        }
+
+
+        {
+            const calc1 = 0.01 * atk;
+            const calc2 = 0.1423 * atk;
+            calcZanretsuDiv.textContent = `【斬裂弾】単発　着弾：${calc1} 　斬撃：${calc2}`;
+        }
+
+
+
+        {
+            //const calc1 = 0.01 * atk;
+            //const calc2 = 0.197 * atk;
+            //calcKakusan3Div.textContent = `【拡散弾Lv3】単発　着弾：${calc1} 　爆発：${calc2}`;
+        }
+        
+    }
+
+    // 3. input要素にイベントリスナーを追加
+    // 'input' イベントが発生したときに onAtkInputChange 関数を呼び出す
+    atkInput.addEventListener('input', onAtkInputChange);
+
+    // または、changeイベントを使いたい場合:
+    // atkInput.addEventListener('change', onAtkInputChange);
+</script>
